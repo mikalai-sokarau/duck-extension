@@ -856,26 +856,19 @@
       });
     }
 
-    let vatLength = document.getElementsByName('vat_number').length;
-    //Создаем ссылку и добавляем ее к каждому полю с УНП
-    for (let i = 0; i < vatLength; i++) {
-      let e = document.createElement('a');
-      e.href = 'http://egr.gov.by/egrn/index.jsp?content=Find';
-      e.title = 'Проверить в ЕГР';
-      e.target = '_blank';
-      e.id = document.getElementsByName('vat_number')[i].value;
-      e.onclick = function(x) {
-        chrome.runtime.sendMessage({ greeting: x.target.id });
-      };
-      e.appendChild(document.createTextNode('→'));
-      e.style.cssText = 'margin-right: 5px; color: red; ...';
-      document
-        .getElementsByName('vat_number')
-        [i].parentNode.insertBefore(
-          e,
-          document.getElementsByName('vat_number')[i]
-        );
-    }
+    Array.from(document.getElementsByName('vat_number')).forEach(elem => {
+      const link = document.createElement('a');
+      link.href = 'http://egr.gov.by/egrn/index.jsp?content=Find';
+      link.title = 'Проверить в ЕГР';
+      link.target = '_blank';
+      link.id = elem.value;
+      link.addEventListener('click', e =>
+        chrome.runtime.sendMessage({ greeting: e.target.id })
+      );
+      link.appendChild(document.createTextNode('→'));
+      link.style.cssText = 'margin-right: 5px; color: red;';
+      elem.parentNode.insertBefore(link, elem);
+    });
 
     //Отправляет сообщение о готовности принимать комманды от background.js
     chrome.runtime.sendMessage({ greeting: 'ready' }, function(response) {
