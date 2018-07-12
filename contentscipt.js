@@ -805,34 +805,35 @@
       sender,
       sendResponse
     ) {
-      if (request.msg === 'getAmount') {
-        let responseArray = [];
-        //сохраняет почасовые значения в массив с 6 до 23 часов.
-        for (let i = 6; i < 24; i++) {
-          if (
-            !isNaN(parseFloat(localStorage.getItem(i))) &&
-            isFinite(localStorage.getItem(i))
-          ) {
-            responseArray[i] = localStorage.getItem(i);
-            responseArray[25] = localStorage.getItem(i); //количество за прошлый час.
+      if (request)
+        if (request.msg === 'getAmount') {
+          let responseArray = [];
+          //сохраняет почасовые значения в массив с 6 до 23 часов.
+          for (let i = 6; i < 24; i++) {
+            if (
+              !isNaN(parseFloat(localStorage.getItem(i))) &&
+              isFinite(localStorage.getItem(i))
+            ) {
+              responseArray[i] = localStorage.getItem(i);
+              responseArray[25] = localStorage.getItem(i); //количество за прошлый час.
+            }
           }
-        }
-        //сохраняет почасовые значения в массив с 0 до 5 часов.
-        for (let i = 0; i < 6; i++) {
-          if (
-            !isNaN(parseFloat(localStorage.getItem(i))) &&
-            isFinite(localStorage.getItem(i))
-          ) {
-            responseArray[i] = localStorage.getItem(i);
-            responseArray[25] = localStorage.getItem(i); //количество за прошлый час.
+          //сохраняет почасовые значения в массив с 0 до 5 часов.
+          for (let i = 0; i < 6; i++) {
+            if (
+              !isNaN(parseFloat(localStorage.getItem(i))) &&
+              isFinite(localStorage.getItem(i))
+            ) {
+              responseArray[i] = localStorage.getItem(i);
+              responseArray[25] = localStorage.getItem(i); //количество за прошлый час.
+            }
           }
+          responseArray[24] = Number(localStorage.getItem('currentHourResult')); //количество за час.
+          responseArray[26] =
+            localStorage.clickcount === null ? 0 : localStorage.clickcount;
+          // localStorage.clickcount === null ? responseArray[26] = 0 : responseArray[26] = localStorage.clickcount; //количество за день.
+          sendResponse({ farewell: responseArray });
         }
-        responseArray[24] = Number(localStorage.getItem('currentHourResult')); //количество за час.
-        responseArray[26] =
-          localStorage.clickcount === null ? 0 : localStorage.clickcount;
-        // localStorage.clickcount === null ? responseArray[26] = 0 : responseArray[26] = localStorage.clickcount; //количество за день.
-        sendResponse({ farewell: responseArray });
-      }
     });
 
     //подсвечивает цену, большую 10000р. и меньшую 2р.
@@ -862,12 +863,15 @@
       link.title = 'Проверить в ЕГР';
       link.target = '_blank';
       link.id = elem.value;
-      link.addEventListener('click', e =>
-        chrome.runtime.sendMessage({ greeting: e.target.id })
+      link.addEventListener('click', ({ target: { id } }) =>
+        chrome.runtime.sendMessage({ idToEGR: id })
       );
       link.appendChild(document.createTextNode('→'));
       link.style.cssText = 'margin-right: 5px; color: red;';
       elem.parentNode.insertBefore(link, elem);
+      chrome.runtime.sendMessage({ getDataFromEGR: elem.value }, res => {
+        console.log(res);
+      });
     });
 
     //Отправляет сообщение о готовности принимать комманды от background.js
