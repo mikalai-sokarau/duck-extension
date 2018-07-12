@@ -1,0 +1,48 @@
+{
+  "manifest_version": 2,
+  "name": "Уткулятор",
+  "version": "1.0.23",
+  "description": "ᕕ( ՞ ᗜ ՞ )ᕗ",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+
+  "page_action": {
+    "default_title": "Кря!",
+    "default_icon": "icon16.png",
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www2.kufar.by/*",
+        "http://egr.gov.by/egrn/*"
+      ],
+      "js": [
+        "contentscipt.js",
+        "egrscript.js"
+      ]
+    }
+  ],
+
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+
+  "permissions": [
+    "storage",
+    "declarativeContent",
+    "https://www2.kufar.by/*",
+    "tabs"
+  ]
+}

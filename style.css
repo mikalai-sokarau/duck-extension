@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.highlighting {
+    padding: 5px 0;
+}
+
+.postmoderation {
+    text-align: center;
+    margin: 20px 20px;
+    padding: 10px;
+}
+
+.right {
+    float: right;
+}
+
+.saveWrapper {
+    padding-top: 5px;
+    text-align: center;
+}
+
+#allDayResult {
+    font-size: 75%;
+    font-weight: bold;
+    text-align: center;
+    color: #f4a500;
+}
+
+#category {
+    margin: 5px 0;
+}
+
+#currentHourResult {
+    font-size: 150%;
+    font-weight: bold;
+    text-align: center;
+    color: #2ca7e0;
+}
+
+#div6, #div9, #div12, #div15, #div18, #div21, #div0, #div3 {
+    color: #2ca7e0;
+}
+
+#div7, #div10, #div13, #div16, #div19, #divdiv22, #div1, #div4 {
+    color: #abbf1f;
+}
+
+#div8, #div11, #div14, #div17, #div20, #div23, #div2, #div5 {
+    color: #f4a500;
+}
+
+#hours {
+    margin-top: 8px;
+    text-align: center;
+    color: #2ca7e0;
+}
+
+#lastHourResult{
+    font-size: 125%;
+    font-weight: 700;
+    text-align: center;
+    padding-bottom: 2px;
+    color: #abbf1f;
+}
+
+#searchText {
+    width: 100%;
+}
+
+#status {
+    color: green;
+    padding-bottom: 3px;
+    visibility: hidden;
+}
+
+#wrapper {
+    width: 93px;
+    height: auto;
+    /*font: 16px Arial, Trebuchet MS;*/
+    padding: 17px 10px 10px 10px;
+
+}
+
+a.rollover {
+    background: url(movedown.png); /* Путь к файлу с исходным  рисунком */
+    display: block; /* Рисунок как блочный элемент */
+    width: 115px; /* Ширина рисунка в пикселах */
+    height: 7px; /* Высота рисунка */
+}
+
+a.rollover:hover {
+    background-position: 0 -7px; /* Смещение фона */
+}
