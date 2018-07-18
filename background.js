@@ -61,11 +61,17 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     sendResponse({ farewell: forEgr });
   }
   if (req.getDataFromEGR) {
-    return !!fetch(`http://egr.gov.by/egrn/API.jsp?NM=${req.getDataFromEGR}`)
+    Promise.race([
+      fetch(`http://egr.gov.by/egrn/API.jsp?NM=${req.getDataFromEGR}`),
+      new Promise((res, rej) => {
+        setTimeout(() => { rej(new Error('timeout')); }, 3000);
+      })
+    ])
       .then(res => res.json())
-      .then(([{ VFN: name, VS: isActive }]) =>
-        sendResponse({ name, isActive })
-      );
+      .then(([{ VFN: name, VS: status }]) => sendResponse({ name, status }))
+      .catch(() => sendResponse({ name: 'Ошибка...' }));
+
+    return true;
   }
   if (req.idToEGR) {
     forEgr = req.idToEGR;

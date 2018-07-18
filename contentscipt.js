@@ -696,6 +696,36 @@
           )[0].lastElementChild.value = constantHeight;
         }
       }
+
+      /* дописать проверку на ип/компанию + отрефакторить поиск по имени в наименовании */
+      const vatNumber = forms[i].querySelector('#vat_number');
+      if (vatNumber) {
+        const key = `duck_${vatNumber.value}`;
+        const value = sessionStorage.getItem(key);
+        const sibling = forms[i].querySelector('.SmallLabel');
+        const userName = forms[i].querySelector(
+          'span[onclick="editAuthorName(this)"]'
+        ).textContent;
+
+        if (value) {
+          const storedData = value.split('=');
+          const isActive = storedData[1] === 'true';
+          const node = createNode(storedData[0], vatNumber.value, isActive);
+
+          sibling.parentNode.insertBefore(node, sibling);
+        } else {
+          chrome.runtime.sendMessage(
+            { getDataFromEGR: vatNumber.value },
+            ({ name, status }) => {
+              const isActive = checkForActive(status, userName, name);
+              const node = createNode(name, vatNumber.value, isActive);
+
+              sessionStorage.setItem(key, `${name}=${isActive}`);
+              sibling.parentNode.insertBefore(node, sibling);
+            }
+          );
+        }
+      }
     }
 
     /* Выделяет адрест ИМ, ТТ при некорректных данных */
@@ -704,6 +734,36 @@
 
     function addHighlight(elem) {
       elem.style.background = '#CCFFCC';
+    }
+
+    function checkForActive(status, userName, name) {
+      const isActiveStatus =
+        status === 'Действующий' || status === 'Процедура банкротства';
+      const isTitleCorrect =
+        userName.search(new RegExp(name.split(' ')[0], 'i')) > -1;
+
+      return isActiveStatus && isTitleCorrect;
+    }
+
+    function createNode(name, value, isActive) {
+      const node = document.createElement('div');
+      const link = document.createElement('a');
+
+      node.style.marginBottom = '5px';
+      link.textContent = name;
+      link.style.border = 'none';
+      link.style.padding = '1px 5px 1px 0';
+      link.style.cursor = 'pointer';
+      link.style.background = `${isActive ? '#d7ffb5' : '#ffd6d6'}`;
+
+      link.target = '_blank';
+      link.href = 'http://egr.gov.by/egrn/index.jsp?content=Find';
+      node.appendChild(link);
+      node.addEventListener('click', () =>
+        chrome.runtime.sendMessage({ idToEGR: value })
+      );
+
+      return node;
     }
 
     for (let i = 0; i < w_sLink.length; i++) {
@@ -856,23 +916,6 @@
         }&search_type=ip&queue=&region=&category_group=0&archive_group=noarchive&timespan=all&search=Search`;
       });
     }
-
-    Array.from(document.getElementsByName('vat_number')).forEach(elem => {
-      const link = document.createElement('a');
-      link.href = 'http://egr.gov.by/egrn/index.jsp?content=Find';
-      link.title = 'Проверить в ЕГР';
-      link.target = '_blank';
-      link.id = elem.value;
-      link.addEventListener('click', ({ target: { id } }) =>
-        chrome.runtime.sendMessage({ idToEGR: id })
-      );
-      link.appendChild(document.createTextNode('→'));
-      link.style.cssText = 'margin-right: 5px; color: red;';
-      elem.parentNode.insertBefore(link, elem);
-      chrome.runtime.sendMessage({ getDataFromEGR: elem.value }, res => {
-        console.log(res);
-      });
-    });
 
     //Отправляет сообщение о готовности принимать комманды от background.js
     chrome.runtime.sendMessage({ greeting: 'ready' }, function(response) {
