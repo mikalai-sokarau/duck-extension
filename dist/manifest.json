@@ -28,7 +28,7 @@
         "http://egr.gov.by/egrn/*"
       ],
       "js": [
-        "./src/scripts/contentscipt.js",
+        "./src/public/bundle.js",
         "./src/scripts/egrscript.js"
       ]
     }
