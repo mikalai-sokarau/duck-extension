@@ -51,10 +51,7 @@ let forEgr;
 //Слушает сообщения о готовности contentscript.js
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
   //Если dateSwitcher включен, посылает сообщение об обнулении данных.
-  if (
-    req.greeting === 'ready' &&
-    localStorage.getItem('dateSwitcher') === 'on'
-  ) {
+  if (req.greeting === 'ready' && localStorage.getItem('dateSwitcher') === 'on') {
     sendResponse({ farewell: 'clearData' });
     localStorage.setItem('dateSwitcher', 'off');
   } else if (req.greeting === 'giveData') {
@@ -64,11 +61,15 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
     Promise.race([
       fetch(`http://egr.gov.by/egrn/API.jsp?NM=${req.getDataFromEGR}`),
       new Promise((res, rej) => {
-        setTimeout(() => { rej(new Error('timeout')); }, 3000);
+        setTimeout(() => {
+          rej(new Error('timeout'));
+        }, 3000);
       })
     ])
       .then(res => res.json())
-      .then(([{ VFN: name, VS: status }]) => sendResponse({ name, status }))
+      .then(([{ VFN: name, VS: status, TP: type }]) => {
+        sendResponse({ name, status, type });
+      })
       .catch(() => sendResponse({ name: 'Ошибка...' }));
 
     return true;

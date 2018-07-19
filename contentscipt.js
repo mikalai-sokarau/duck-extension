@@ -124,13 +124,11 @@
           item.timer &&
           (url ===
             'https://www2.kufar.by/controlpanel?lock=1&m=adqueue&a=show_adqueues&queue=medium' ||
-            url ===
-              'https://www2.kufar.by/controlpanel?m=adqueue&a=show_adqueues')
+            url === 'https://www2.kufar.by/controlpanel?m=adqueue&a=show_adqueues')
         ) {
           let timer = document.createElement('div');
           timer.id = 'duck_timer';
-          timer.style =
-            'position: fixed; right: 10px; bottom: 10px; font-size: medium';
+          timer.style = 'position: fixed; right: 10px; bottom: 10px; font-size: medium';
           document.getElementById('trail').appendChild(timer);
           let timerTime = 3;
           setInterval(function() {
@@ -187,11 +185,9 @@
     }
 
     var forms = document.forms,
-      fixedForms = []
-        .concat(_toConsumableArray(document.forms))
-        .filter(function(form) {
-          return form.length > 1;
-        });
+      fixedForms = [].concat(_toConsumableArray(document.forms)).filter(function(form) {
+        return form.length > 1;
+      });
 
     for (let i = 0; i < forms.length; i++) {
       /* оранжевая шапка на опубликованные объявления */
@@ -208,17 +204,14 @@
       const subjElelemnt = forms[i].getElementsByClassName('subj')[0];
       if (subjElelemnt) {
         if (!subjElelemnt.getAttribute('onclick')) {
-          subjElelemnt.setAttribute(
-            'onclick',
-            'addTitleEdited(' + forms[i].id + ')'
-          );
+          subjElelemnt.setAttribute('onclick', 'addTitleEdited(' + forms[i].id + ')');
         }
       }
 
       //помещает телефон над полем с ценой.
       try {
-        const currentPhoneNumber = forms[i].querySelector('[class|=UserData]')
-          .children[2].textContent;
+        const currentPhoneNumber = forms[i].querySelector('[class|=UserData]').children[2]
+          .textContent;
         const fixedNumber = String(currentPhoneNumber.replace(/\D+/g, ''));
         const phoneSpan = document.createElement('span');
         phoneSpan.innerHTML = currentPhoneNumber;
@@ -277,9 +270,7 @@
         let adQueueId = forms[i]
           .getElementsByClassName('fine_print')[0]
           .getElementsByTagName('a');
-        let adNumberAndRedaction = adQueueId[
-          adQueueId.length - 1
-        ].innerHTML.split('-');
+        let adNumberAndRedaction = adQueueId[adQueueId.length - 1].innerHTML.split('-');
         if (!forms[i].querySelector('[class|=AdLink]')) {
           adNumberAndRedaction[1] = 2;
         }
@@ -337,8 +328,7 @@
       //поиск по текущей категории
       let categoryFindButton;
       if (forms[i].querySelector('[name|=category_group]')) {
-        let form_selectValue = forms[i].querySelector('[name|=category_group]')
-          .value;
+        let form_selectValue = forms[i].querySelector('[name|=category_group]').value;
         let emailCheck = forms[i]
           .getElementsByClassName('AdWrapper')[0]
           .getElementsByTagName('a');
@@ -359,11 +349,7 @@
         categoryFindButton.appendChild(document.createTextNode('🔍'));
       }
       if (forms[i].querySelector('[name|=category_group]')) {
-        if (
-          !forms[i]
-            .querySelector('[name|=category_group]')
-            .getAttribute('onclick')
-        ) {
+        if (!forms[i].querySelector('[name|=category_group]').getAttribute('onclick')) {
           forms[i]
             .querySelector('[name|=category_group]')
             .setAttribute('onclick', 'addWrongCategory(' + forms[i].id + ')');
@@ -373,18 +359,16 @@
             .getElementsByClassName('AdWrapper')[0]
             .getElementsByTagName('td')
             [
-              forms[i]
-                .getElementsByClassName('AdWrapper')[0]
-                .getElementsByTagName('td').length - 1
+              forms[i].getElementsByClassName('AdWrapper')[0].getElementsByTagName('td')
+                .length - 1
             ].getAttribute('onclick')
         ) {
           forms[i]
             .getElementsByClassName('AdWrapper')[0]
             .getElementsByTagName('td')
             [
-              forms[i]
-                .getElementsByClassName('AdWrapper')[0]
-                .getElementsByTagName('td').length - 1
+              forms[i].getElementsByClassName('AdWrapper')[0].getElementsByTagName('td')
+                .length - 1
             ].getElementsByTagName('select')[0]
             .setAttribute('onclick', 'addWrongCategory(' + forms[i].id + ')');
           let addedPlace = forms[i]
@@ -418,17 +402,14 @@
                 'название марки' &&
               carsBrandText.options[carsBrandText.selectedIndex].text !== 'OTH1'
             ) {
-              carBrand =
-                ' ' + carsBrandText.options[carsBrandText.selectedIndex].text;
+              carBrand = ' ' + carsBrandText.options[carsBrandText.selectedIndex].text;
             }
             if (
               carsModelText.options[carsModelText.selectedIndex].text !==
                 'название модели' &&
-              carsModelText.options[carsModelText.selectedIndex].text !==
-                'Другая'
+              carsModelText.options[carsModelText.selectedIndex].text !== 'Другая'
             ) {
-              carModel =
-                ' ' + carsModelText.options[carsModelText.selectedIndex].text;
+              carModel = ' ' + carsModelText.options[carsModelText.selectedIndex].text;
             }
             document
               .getElementById(correctFormId)
@@ -442,8 +423,7 @@
         if (forms[i].querySelector('[id|=remuneration_type1]').checked) {
           try {
             let range = document.createRange();
-            let aim = forms[i].querySelector('[id|=remuneration_type1]')
-              .nextSibling;
+            let aim = forms[i].querySelector('[id|=remuneration_type1]').nextSibling;
             range.setStart(aim, 0);
             range.setEnd(aim, aim.length - 1);
             let highlightDiv = document.createElement('span');
@@ -457,8 +437,7 @@
         /* кнопки для постмодерации */
         chrome.storage.sync.get(['postmoderation'], function(item) {
           if (item.postmoderation) {
-            forms[i].getElementsByClassName('QueueName')[0].style.textAligh =
-              'center';
+            forms[i].getElementsByClassName('QueueName')[0].style.textAligh = 'center';
             let buttons = [];
             for (let n = 0; n < 5; n++) {
               let idNumbers = forms[i].id.slice(3);
@@ -466,10 +445,7 @@
               buttons[n] = document.createElement('input');
               buttons[n].type = 'submit';
               buttons[n].className = 'postmoderation';
-              buttons[n].setAttribute(
-                'onfocus',
-                `refuse_${idNumbers}.checked = true;`
-              );
+              buttons[n].setAttribute('onfocus', `refuse_${idNumbers}.checked = true;`);
               buttons[n].style = 'float: right; margin-right: 10px;';
             }
             buttons[0].value = 'компания';
@@ -482,26 +458,14 @@
               'onclick',
               `refuseCompanyAdAsPrivate(${forms[i].id})`
             );
-            buttons[1].setAttribute(
-              'onclick',
-              `refuse2Cabinets(${forms[i].id})`
-            );
-            buttons[2].setAttribute(
-              'onclick',
-              `falseSellerInformation(${forms[i].id})`
-            );
-            buttons[3].setAttribute(
-              'onclick',
-              `inactiveDuplicate(${forms[i].id})`
-            );
+            buttons[1].setAttribute('onclick', `refuse2Cabinets(${forms[i].id})`);
+            buttons[2].setAttribute('onclick', `falseSellerInformation(${forms[i].id})`);
+            buttons[3].setAttribute('onclick', `inactiveDuplicate(${forms[i].id})`);
             buttons[4].setAttribute('onclick', `duplicate(${forms[i].id})`);
 
-            buttons.forEach(button =>
-              button.addEventListener('click', clickCounter)
-            );
+            buttons.forEach(button => button.addEventListener('click', clickCounter));
 
-            forms[i].querySelector('[class|=QueueName]').style =
-              'max-width: 800px';
+            forms[i].querySelector('[class|=QueueName]').style = 'max-width: 800px';
 
             for (let k = 4; k >= 0; k--) {
               let place = forms[i].querySelector('[class|=QueueName]');
@@ -511,26 +475,21 @@
         });
 
         /* выделение категории */
-        chrome.storage.sync.get(
-          ['category', 'phone', 'IP', 'firstAd'],
-          function(items) {
-            if (items.category) {
-              if (
-                forms[i].querySelector('[name|=category_group]').value ===
-                  items.category &&
-                !!forms[i].querySelectorAll(
-                  'img[src$="flag_new_user.gif"]'
-                )[0] === items.firstAd &&
-                !!forms[i].getElementsByClassName('UserData')['0'].childNodes[5]
-                  .textContent === items.phone &&
-                !!forms[i].querySelector('a[class|=Highlight]') === items.IP &&
-                forms[i].querySelector('option[value|=s]').selected
-              ) {
-                forms[i].style.border = '1px solid red';
-              }
+        chrome.storage.sync.get(['category', 'phone', 'IP', 'firstAd'], function(items) {
+          if (items.category) {
+            if (
+              forms[i].querySelector('[name|=category_group]').value === items.category &&
+              !!forms[i].querySelectorAll('img[src$="flag_new_user.gif"]')[0] ===
+                items.firstAd &&
+              !!forms[i].getElementsByClassName('UserData')['0'].childNodes[5]
+                .textContent === items.phone &&
+              !!forms[i].querySelector('a[class|=Highlight]') === items.IP &&
+              forms[i].querySelector('option[value|=s]').selected
+            ) {
+              forms[i].style.border = '1px solid red';
             }
           }
-        );
+        });
 
         /* выделение поисковых слов */
         chrome.storage.sync.get(['isSearchTextVisible'], function(obj) {
@@ -630,39 +589,29 @@
         //добавляет данные во все фильтры в шинах
         if (forms[i].querySelector('[name|=category_group]').value === '2075') {
           let constantDiameter =
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-tires_diameter'
-            )[0].lastElementChild.value ||
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-wheels_diameter'
-            )[0].lastElementChild.value ||
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-caps_diameter'
-            )[0].lastElementChild.value ||
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-st_diameter'
-            )[0].lastElementChild.value;
+            forms[i].getElementsByClassName('js-param js-subparam js-tires_diameter')[0]
+              .lastElementChild.value ||
+            forms[i].getElementsByClassName('js-param js-subparam js-wheels_diameter')[0]
+              .lastElementChild.value ||
+            forms[i].getElementsByClassName('js-param js-subparam js-caps_diameter')[0]
+              .lastElementChild.value ||
+            forms[i].getElementsByClassName('js-param js-subparam js-st_diameter')[0]
+              .lastElementChild.value;
           let constantSeason =
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-tires_season'
-            )[0].lastElementChild.value ||
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-st_season'
-            )[0].lastElementChild.value;
+            forms[i].getElementsByClassName('js-param js-subparam js-tires_season')[0]
+              .lastElementChild.value ||
+            forms[i].getElementsByClassName('js-param js-subparam js-st_season')[0]
+              .lastElementChild.value;
           let constantWidth =
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-st_width'
-            )[0].lastElementChild.value ||
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-tires_width'
-            )[0].lastElementChild.value;
+            forms[i].getElementsByClassName('js-param js-subparam js-st_width')[0]
+              .lastElementChild.value ||
+            forms[i].getElementsByClassName('js-param js-subparam js-tires_width')[0]
+              .lastElementChild.value;
           let constantHeight =
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-tires_height'
-            )[0].lastElementChild.value ||
-            forms[i].getElementsByClassName(
-              'js-param js-subparam js-st_height'
-            )[0].lastElementChild.value;
+            forms[i].getElementsByClassName('js-param js-subparam js-tires_height')[0]
+              .lastElementChild.value ||
+            forms[i].getElementsByClassName('js-param js-subparam js-st_height')[0]
+              .lastElementChild.value;
 
           forms[i].getElementsByClassName(
             'js-param js-subparam js-tires_diameter'
@@ -698,14 +647,14 @@
       }
 
       /* дописать проверку на ип/компанию + отрефакторить поиск по имени в наименовании */
+
       const vatNumber = forms[i].querySelector('#vat_number');
       if (vatNumber) {
         const key = `duck_${vatNumber.value}`;
         const value = sessionStorage.getItem(key);
         const sibling = forms[i].querySelector('.SmallLabel');
-        const userName = forms[i].querySelector(
-          'span[onclick="editAuthorName(this)"]'
-        ).textContent;
+        const userName = forms[i].querySelector('span[onclick="editAuthorName(this)"]')
+          .textContent;
 
         if (value) {
           const storedData = value.split('=');
@@ -716,8 +665,8 @@
         } else {
           chrome.runtime.sendMessage(
             { getDataFromEGR: vatNumber.value },
-            ({ name, status }) => {
-              const isActive = checkForActive(status, userName, name);
+            ({ name, status, type }) => {
+              const isActive = checkForActive(status, userName, name, type);
               const node = createNode(name, vatNumber.value, isActive);
 
               sessionStorage.setItem(key, `${name}=${isActive}`);
@@ -736,13 +685,22 @@
       elem.style.background = '#CCFFCC';
     }
 
-    function checkForActive(status, userName, name) {
+    function checkForActive(status, userName, name, type) {
       const isActiveStatus =
         status === 'Действующий' || status === 'Процедура банкротства';
-      const isTitleCorrect =
-        userName.search(new RegExp(name.split(' ')[0], 'i')) > -1;
+      const isTitleCorrect = checkForTitle(userName, name, type);
 
       return isActiveStatus && isTitleCorrect;
+    }
+
+    /**
+     * API link - http://egr.gov.by/egrn/index.jsp?content=API
+     * @param type 1 - company, 2 - individual entrepreneur
+     */
+    function checkForTitle(userName, name, type) {
+      return type === 1
+        ? userName.search(new RegExp(name, 'i')) > -1
+        : userName.search(new RegExp(name.split(' ')[0], 'i')) > -1;
     }
 
     function createNode(name, value, isActive) {
@@ -860,11 +818,7 @@
     }
 
     //Cлушает сообщения из main.js
-    chrome.runtime.onMessage.addListener(function(
-      request,
-      sender,
-      sendResponse
-    ) {
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       if (request)
         if (request.msg === 'getAmount') {
           let responseArray = [];
