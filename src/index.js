@@ -14,6 +14,7 @@ import searchWords from './app/scripts/searchWords';
 import dangerNodesHighlighting from './app/scripts/dangerNodesHighlighting';
 import wrongCompanyDataHighlighting from './app/scripts/wrongCompanyDataHighlighting';
 import correctIPSearch from './app/scripts/correctIPSearch';
+import moderatorStatsListener from './app/scripts/moderatorStatsListener';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
@@ -28,48 +29,48 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
 
   clicker();
   timer();
+  wrongCompanyDataHighlighting();
+  dangerNodesHighlighting();
+  moderatorStatsListener();
+  correctIPSearch();
 
-  var forms = document.forms;
-  
-  for (let i = 0; i < forms.length; i++) {
-    phoneNumberCheck(forms[i]);
-    previousRedaction(forms[i]);
-    robocopMessagesHighlighting(forms[i]);
-    currentCategorySearch(forms[i]);
-    egrMessager(forms[i]);
-    extraButtons(forms[i]);
-    searchWords(forms[i]);
-    carTitleButton(forms[i]);
-    wheelsDataSynchronizing(forms[i]);
-
-    /* оранжевая шапка на опубликованные объявления */
-    if (forms[i].querySelector('.AdLink')) {
-      forms[i].querySelector('.GreyOutlineHeader').classList.add('Orange');
+  Array.from(document.forms).forEach(form => {
+    phoneNumberCheck(form);
+    previousRedaction(form);
+    robocopMessagesHighlighting(form);
+    currentCategorySearch(form);
+    egrMessager(form);
+    extraButtons(form);
+    searchWords(form);
+    carTitleButton(form);
+    wheelsDataSynchronizing(form);
+    if (form.querySelector('.AdLink')) {
+      form.querySelector('.GreyOutlineHeader').classList.add('Orange');
     }
 
-    const submitButton = forms[i].querySelector('.SubmitButton');
+    const submitButton = form.querySelector('.SubmitButton');
     if (submitButton) {
       submitButton.addEventListener('click', clickCounter);
     }
 
     /* добавление причины "Заголовок" */
-    const subjElelemnt = forms[i].getElementsByClassName('subj')[0];
+    const subjElelemnt = form.getElementsByClassName('subj')[0];
     if (subjElelemnt) {
       if (!subjElelemnt.getAttribute('onclick')) {
-        subjElelemnt.setAttribute('onclick', 'addTitleEdited(' + forms[i].id + ')');
+        subjElelemnt.setAttribute('onclick', 'addTitleEdited(' + form.id + ')');
       }
     }
 
-    if (forms[i].querySelector('[name|=category_group]')) {
-      if (forms[i].querySelector('[name|=category_group]').value === '1120') {
-        forms[i].style.border = '2px solid red';
+    if (form.querySelector('[name|=category_group]')) {
+      if (form.querySelector('[name|=category_group]').value === '1120') {
+        form.style.border = '2px solid red';
       }
 
       // подсветка если цена бесплатно
-      if (forms[i].querySelector('[id|=remuneration_type1]').checked) {
+      if (form.querySelector('[id|=remuneration_type1]').checked) {
         try {
           let range = document.createRange();
-          let aim = forms[i].querySelector('[id|=remuneration_type1]').nextSibling;
+          let aim = form.querySelector('[id|=remuneration_type1]').nextSibling;
           range.setStart(aim, 0);
           range.setEnd(aim, aim.length - 1);
           let highlightDiv = document.createElement('span');
@@ -80,10 +81,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
         }
       }
     }
-  }
-
-  wrongCompanyDataHighlighting();
-  dangerNodesHighlighting();
+  });
 
   //Сохраняет данные при наступлении нового часа.
   let tmpDate = new Date().getHours();
@@ -100,38 +98,6 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
     localStorage.setItem('sHour', tmpDate);
   }
 
-  //Cлушает сообщения из main.js
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request)
-      if (request.msg === 'getAmount') {
-        let responseArray = [];
-        //сохраняет почасовые значения в массив с 6 до 23 часов.
-        for (let i = 6; i < 24; i++) {
-          if (
-            !isNaN(parseFloat(localStorage.getItem(i))) &&
-            isFinite(localStorage.getItem(i))
-          ) {
-            responseArray[i] = localStorage.getItem(i);
-            responseArray[25] = localStorage.getItem(i); //количество за прошлый час.
-          }
-        }
-        //сохраняет почасовые значения в массив с 0 до 5 часов.
-        for (let i = 0; i < 6; i++) {
-          if (
-            !isNaN(parseFloat(localStorage.getItem(i))) &&
-            isFinite(localStorage.getItem(i))
-          ) {
-            responseArray[i] = localStorage.getItem(i);
-            responseArray[25] = localStorage.getItem(i); //количество за прошлый час.
-          }
-        }
-        responseArray[24] = Number(localStorage.getItem('currentHourResult')); //количество за час.
-        responseArray[26] =
-          localStorage.clickcount === null ? 0 : localStorage.clickcount;
-        sendResponse({ farewell: responseArray });
-      }
-  });
-
   //подсвечивает цену, большую 10000р. и меньшую 2р.
   let price = document.getElementsByClassName('input_price');
   for (let i = 0; i < price.length; i++) {
@@ -140,8 +106,6 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
       price[i].style.backgroundColor = '#CCFFCC';
     }
   }
-
-  correctIPSearch();
 
   //Отправляет сообщение о готовности принимать комманды от background.js
   chrome.runtime.sendMessage({ greeting: 'ready' }, function(response) {
