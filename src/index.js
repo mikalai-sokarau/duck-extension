@@ -10,6 +10,7 @@ import currentCategorySearch from './app/scripts/currentCategorySearch';
 import wheelsDataSynchronizing from './app/scripts/wheelsDataSynchronizing';
 import carTitleButton from './app/scripts/carTitleButton';
 import extraButtons from './app/scripts/extraButtons';
+import searchWords from './app/scripts/searchWords';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
@@ -52,6 +53,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
 
     //поиск по текущей категории
     currentCategorySearch(forms[i]);
+
     if (forms[i].querySelector('[name|=category_group]')) {
       if (forms[i].querySelector('[name|=category_group]').value === '1120') {
         forms[i].style.border = '2px solid red';
@@ -73,123 +75,9 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
       }
 
       extraButtons(forms[i]);
-
-      /* выделение категории */
-      chrome.storage.sync.get(['category', 'phone', 'IP', 'firstAd'], function(items) {
-        if (items.category) {
-          if (
-            forms[i].querySelector('[name|=category_group]').value === items.category &&
-            !!forms[i].querySelectorAll('img[src$="flag_new_user.gif"]')[0] ===
-              items.firstAd &&
-            !!forms[i].getElementsByClassName('UserData')['0'].childNodes[5]
-              .textContent === items.phone &&
-            !!forms[i].querySelector('a[class|=Highlight]') === items.IP &&
-            forms[i].querySelector('option[value|=s]').selected
-          ) {
-            forms[i].style.border = '1px solid red';
-          }
-        }
-      });
-
-      /* выделение поисковых слов */
-      chrome.storage.sync.get(['isSearchTextVisible'], function(obj) {
-        if (obj.isSearchTextVisible) {
-          chrome.storage.sync.get(['searchText'], function(item) {
-            let wordsFromOptions = item.searchText;
-            let adBodyNode = forms[i].querySelector('div[id|=body]');
-            wordsFromOptions.forEach(function(item) {
-              try {
-                let wordsStartRanges = findAllStartRanges(adBodyNode, item);
-                highlightText(adBodyNode, wordsStartRanges, item);
-              } catch (e) {
-                /* do nothing */
-              }
-            });
-
-            function findAllStartRanges(nodeWithText, searchFragment) {
-              let ranges = [];
-              let text = nodeWithText.textContent.toLowerCase();
-              let searchIndex = 0;
-
-              while (~text.indexOf(searchFragment, searchIndex)) {
-                let index = text.indexOf(searchFragment, searchIndex);
-                ranges.push(index);
-                searchIndex = index + searchFragment.length;
-              }
-
-              return ranges;
-            }
-
-            function highlightText(nodeWithText, arr, searchFragment) {
-              for (let i = 0; i < arr.length; i++) {
-                let wordStartRange = arr[i];
-                let wordFinishRange = wordStartRange + searchFragment.length;
-                let start = findNode(nodeWithText, wordStartRange);
-                let end = findNode(nodeWithText, wordFinishRange);
-                if (start !== null && ~start[1]) {
-                  let range = document.createRange();
-                  range.setStart(start[0], start[1]);
-                  range.setEnd(end[0], end[1]);
-                  let highlightDiv = document.createElement('span');
-                  highlightDiv.style.backgroundColor = '#0ef';
-                  try {
-                    range.surroundContents(highlightDiv);
-                  } catch (e) {
-                    // если уже висит выделение на найденном участке вылетает
-                    // InvalidStateError, будет просто пропускать этот кусок.
-                  }
-                }
-              }
-
-              function findNode(nodeWithText, num, startIndex = 0) {
-                let index = startIndex,
-                  item = nodeWithText.childNodes,
-                  i = 0;
-
-                for (; i < item.length; i++) {
-                  if (item[i].nodeType === 1) {
-                    if (item[i].childNodes.length > 1) {
-                      if (index + item[i].textContent.length < num) {
-                        index += item[i].textContent.length;
-                      } else {
-                        let zz = findNode(item[i], num, index);
-                        item[i] = zz[0];
-                        index = zz[1];
-                        break;
-                      }
-                    } else {
-                      if (index + item[i].textContent.length < num) {
-                        index += item[i].textContent.length;
-                      } else {
-                        index = num - index;
-                        break;
-                      }
-                    }
-                  }
-                  if (item[i].nodeType === 3) {
-                    if (index + item[i].length <= num) {
-                      index += item[i].length;
-                    } else {
-                      index = num - index;
-                      break;
-                    }
-                  }
-                }
-                if (item[i].nodeType === 1) {
-                  return [item[i].firstChild, index];
-                } else {
-                  return [item[i], index];
-                }
-              }
-            }
-          });
-        }
-      });
-
-      //добавляет данные во все фильтры в шинах
+      searchWords(forms[i]);
       wheelsDataSynchronizing(forms[i]);
     }
-
     egrMessager(forms[i]);
   }
 
