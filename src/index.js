@@ -6,6 +6,7 @@ import phoneNumberCheck from './app/scripts/phoneNumberCheck';
 import previousRedaction from './app/scripts/previousRedaction';
 import egrMessager from './app/scripts/egrMessager';
 import robocopMessagesHighlighting from './app/scripts/robocopMessagesHighlighting';
+import currentCategorySearch from './app/scripts/currentCategorySearch';
 
 sessionStorage.setItem('adsReviewed', 0);
 
@@ -46,56 +47,8 @@ for (let i = 0; i < forms.length; i++) {
   robocopMessagesHighlighting(forms[i]);
 
   //поиск по текущей категории
-  let categoryFindButton;
+  currentCategorySearch(forms[i]);
   if (forms[i].querySelector('[name|=category_group]')) {
-    let form_selectValue = forms[i].querySelector('[name|=category_group]').value;
-    let emailCheck = forms[i]
-      .getElementsByClassName('AdWrapper')[0]
-      .getElementsByTagName('a');
-    let form_userMail;
-    if (emailCheck[emailCheck.length - 1].textContent === '→') {
-      form_userMail = emailCheck[emailCheck.length - 2];
-    } else {
-      form_userMail = emailCheck[emailCheck.length - 1];
-    }
-    categoryFindButton = document.createElement('a');
-    categoryFindButton.href =
-      'https://www2.kufar.by/controlpanel?m=search&a=search&q=' +
-      form_userMail +
-      '&search_type=email&queue=&region=&category_group=' +
-      form_selectValue +
-      '&archive_group=noarchive&timespan=all&time_from=2016-09-19&time_to=2016-10-19&search=Search';
-    categoryFindButton.target = '_blank';
-    categoryFindButton.appendChild(document.createTextNode('🔍'));
-  }
-  if (forms[i].querySelector('[name|=category_group]')) {
-    if (!forms[i].querySelector('[name|=category_group]').getAttribute('onclick')) {
-      forms[i]
-        .querySelector('[name|=category_group]')
-        .setAttribute('onclick', 'addWrongCategory(' + forms[i].id + ')');
-    }
-    if (
-      !forms[i]
-        .getElementsByClassName('AdWrapper')[0]
-        .getElementsByTagName('td')
-        [
-          forms[i].getElementsByClassName('AdWrapper')[0].getElementsByTagName('td')
-            .length - 1
-        ].getAttribute('onclick')
-    ) {
-      forms[i]
-        .getElementsByClassName('AdWrapper')[0]
-        .getElementsByTagName('td')
-        [
-          forms[i].getElementsByClassName('AdWrapper')[0].getElementsByTagName('td')
-            .length - 1
-        ].getElementsByTagName('select')[0]
-        .setAttribute('onclick', 'addWrongCategory(' + forms[i].id + ')');
-      let addedPlace = forms[i]
-        .getElementsByClassName('AdWrapper')[0]
-        .getElementsByTagName('td');
-      addedPlace[addedPlace.length - 1].appendChild(categoryFindButton);
-    }
     if (forms[i].querySelector('[name|=category_group]').value === '1120') {
       forms[i].style.border = '2px solid red';
     }
