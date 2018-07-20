@@ -12,6 +12,7 @@ import carTitleButton from './app/scripts/carTitleButton';
 import extraButtons from './app/scripts/extraButtons';
 import searchWords from './app/scripts/searchWords';
 import dangerNodesHighlighting from './app/scripts/dangerNodesHighlighting';
+import wrongCompanyDataHighlighting from './app/scripts/wrongCompanyDataHighlighting';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
@@ -80,36 +81,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
     }
   }
 
-  /* Выделяет адрест ИМ, ТТ при некорректных данных */
-  let w_sLink = document.getElementsByName('web_shop_link');
-  let sAddress = document.getElementsByName('shop_address');
-
-  function addHighlight(elem) {
-    elem.style.background = '#CCFFCC';
-  }
-
-  for (let i = 0; i < w_sLink.length; i++) {
-    if (
-      w_sLink[i].value.toLowerCase().indexOf('.by') === -1 &&
-      w_sLink[i].value.toLowerCase().indexOf('.бел') === -1 &&
-      w_sLink[i].value.length !== 0
-    ) {
-      addHighlight(w_sLink[i]);
-    }
-    if (
-      (sAddress[i].value.toLowerCase().indexOf('.by') ||
-        sAddress[i].value.toLowerCase().indexOf('.ru') ||
-        sAddress[i].value.toLowerCase().indexOf('.com') ||
-        sAddress[i].value.toLowerCase().indexOf('.бел') ||
-        sAddress[i].value.toLowerCase().indexOf('.org') ||
-        sAddress[i].value.toLowerCase().indexOf('.рф') ||
-        sAddress[i].value.toLowerCase().indexOf('.net')) !== -1 &&
-      sAddress[i].value.length !== 0
-    ) {
-      addHighlight(sAddress[i]);
-    }
-  }
-
+  wrongCompanyDataHighlighting();
   dangerNodesHighlighting();
 
   //Сохраняет данные при наступлении нового часа.
@@ -169,6 +141,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   }
 
   //Заменяет поиск по id на корректный.
+  
   {
     const IPSearchNodesArr = Array.from(
       document.querySelectorAll(".UserData a[href*='ripe.net']")
