@@ -15,6 +15,7 @@ import dangerNodesHighlighting from './app/scripts/dangerNodesHighlighting';
 import wrongCompanyDataHighlighting from './app/scripts/wrongCompanyDataHighlighting';
 import correctIPSearch from './app/scripts/correctIPSearch';
 import moderatorStatsListener from './app/scripts/moderatorStatsListener';
+import freePriceHighlighting from './app/scripts/freePriceHighlighting';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
@@ -44,6 +45,8 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
     searchWords(form);
     carTitleButton(form);
     wheelsDataSynchronizing(form);
+    freePriceHighlighting(form);
+
     if (form.querySelector('.AdLink')) {
       form.querySelector('.GreyOutlineHeader').classList.add('Orange');
     }
@@ -64,21 +67,6 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
     if (form.querySelector('[name|=category_group]')) {
       if (form.querySelector('[name|=category_group]').value === '1120') {
         form.style.border = '2px solid red';
-      }
-
-      // подсветка если цена бесплатно
-      if (form.querySelector('[id|=remuneration_type1]').checked) {
-        try {
-          let range = document.createRange();
-          let aim = form.querySelector('[id|=remuneration_type1]').nextSibling;
-          range.setStart(aim, 0);
-          range.setEnd(aim, aim.length - 1);
-          let highlightDiv = document.createElement('span');
-          highlightDiv.style.cssText = 'color: red;';
-          range.surroundContents(highlightDiv);
-        } catch (e) {
-          //do nothing
-        }
       }
     }
   });
