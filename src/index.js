@@ -13,6 +13,7 @@ import extraButtons from './app/scripts/extraButtons';
 import searchWords from './app/scripts/searchWords';
 import dangerNodesHighlighting from './app/scripts/dangerNodesHighlighting';
 import wrongCompanyDataHighlighting from './app/scripts/wrongCompanyDataHighlighting';
+import correctIPSearch from './app/scripts/correctIPSearch';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
@@ -29,7 +30,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   timer();
 
   var forms = document.forms;
-
+  
   for (let i = 0; i < forms.length; i++) {
     phoneNumberCheck(forms[i]);
     previousRedaction(forms[i]);
@@ -140,18 +141,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
     }
   }
 
-  //Заменяет поиск по id на корректный.
-  
-  {
-    const IPSearchNodesArr = Array.from(
-      document.querySelectorAll(".UserData a[href*='ripe.net']")
-    );
-    IPSearchNodesArr.forEach(node => {
-      node.href = `https://www2.kufar.by/controlpanel?m=search&a=search&q=${
-        node.innerHTML
-      }&search_type=ip&queue=&region=&category_group=0&archive_group=noarchive&timespan=all&search=Search`;
-    });
-  }
+  correctIPSearch();
 
   //Отправляет сообщение о готовности принимать комманды от background.js
   chrome.runtime.sendMessage({ greeting: 'ready' }, function(response) {
