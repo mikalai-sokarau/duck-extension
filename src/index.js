@@ -1,5 +1,5 @@
-import scriptText from './headScriptText';
-import timer from './timer';
+import scriptText from './app/scripts/headScriptText';
+import timer from './app/scripts/timer';
 
 sessionStorage.setItem('adsReviewed', 0);
 

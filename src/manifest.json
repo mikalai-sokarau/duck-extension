@@ -4,21 +4,21 @@
   "version": "1.0.25",
   "description": "ᕕ( ՞ ᗜ ՞ )ᕗ",
   "icons": {
-    "16": "./images/icon16.png",
-    "48": "./images/icon48.png",
-    "128": "./images/icon128.png"
+    "16": "./assets/images/icon16.png",
+    "48": "./assets/images/icon48.png",
+    "128": "./assets/images/icon128.png"
   },
 
   "background": {
     "scripts": [
-      "./src/scripts/background.js"
+      "./app/scripts/background.js"
     ]
   },
 
   "page_action": {
     "default_title": "Кря!",
-    "default_icon": "./images/icon16.png",
-    "default_popup": "./src/stats/popup.html"
+    "default_icon": "./assets/images/icon16.png",
+    "default_popup": "./app/stats/popup.html"
   },
 
   "content_scripts": [
@@ -28,14 +28,14 @@
         "http://egr.gov.by/egrn/*"
       ],
       "js": [
-        "./src/public/bundle.js",
-        "./src/scripts/egrscript.js"
+        "./dist/bundle.js",
+        "./app/scripts/egrscript.js"
       ]
     }
   ],
 
   "options_ui": {
-    "page": "./src/options/options.html",
+    "page": "./app/options/options.html",
     "chrome_style": true
   },
 
