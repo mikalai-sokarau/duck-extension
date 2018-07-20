@@ -9,6 +9,7 @@ import robocopMessagesHighlighting from './app/scripts/robocopMessagesHighlighti
 import currentCategorySearch from './app/scripts/currentCategorySearch';
 import wheelsDataSynchronizing from './app/scripts/wheelsDataSynchronizing';
 import carTitleButton from './app/scripts/carTitleButton';
+import extraButtons from './app/scripts/extraButtons';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
@@ -71,42 +72,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
         }
       }
 
-      /* кнопки для постмодерации */
-      chrome.storage.sync.get(['postmoderation'], function(item) {
-        if (item.postmoderation) {
-          forms[i].getElementsByClassName('QueueName')[0].style.textAligh = 'center';
-          let buttons = [];
-          for (let n = 0; n < 5; n++) {
-            let idNumbers = forms[i].id.slice(3);
-
-            buttons[n] = document.createElement('input');
-            buttons[n].type = 'submit';
-            buttons[n].className = 'postmoderation';
-            buttons[n].setAttribute('onfocus', `refuse_${idNumbers}.checked = true;`);
-            buttons[n].style = 'float: right; margin-right: 10px;';
-          }
-          buttons[0].value = 'компания';
-          buttons[1].value = '2 каб.';
-          buttons[2].value = 'тел.';
-          buttons[3].value = 'deactivated';
-          buttons[4].value = 'published';
-
-          buttons[0].setAttribute('onclick', `refuseCompanyAdAsPrivate(${forms[i].id})`);
-          buttons[1].setAttribute('onclick', `refuse2Cabinets(${forms[i].id})`);
-          buttons[2].setAttribute('onclick', `falseSellerInformation(${forms[i].id})`);
-          buttons[3].setAttribute('onclick', `inactiveDuplicate(${forms[i].id})`);
-          buttons[4].setAttribute('onclick', `duplicate(${forms[i].id})`);
-
-          buttons.forEach(button => button.addEventListener('click', clickCounter));
-
-          forms[i].querySelector('[class|=QueueName]').style = 'max-width: 800px';
-
-          for (let k = 4; k >= 0; k--) {
-            let place = forms[i].querySelector('[class|=QueueName]');
-            place.appendChild(buttons[k]);
-          }
-        }
-      });
+      extraButtons(forms[i]);
 
       /* выделение категории */
       chrome.storage.sync.get(['category', 'phone', 'IP', 'firstAd'], function(items) {
