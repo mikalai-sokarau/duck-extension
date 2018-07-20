@@ -8,12 +8,13 @@ import egrMessager from './app/scripts/egrMessager';
 import robocopMessagesHighlighting from './app/scripts/robocopMessagesHighlighting';
 import currentCategorySearch from './app/scripts/currentCategorySearch';
 import wheelsDataSynchronizing from './app/scripts/wheelsDataSynchronizing';
+import carTitleButton from './app/scripts/carTitleButton';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
 
   //Добавляет текст скрипта с функциями addWrongCategory(), addTitleEdited() в head
-  const head = document.getElementsByTagName('head' )[0];
+  const head = document.getElementsByTagName('head')[0];
   const script = document.createElement('script');
   script.type = 'text/javascript';
   script.text = scriptText;
@@ -54,46 +55,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
       if (forms[i].querySelector('[name|=category_group]').value === '1120') {
         forms[i].style.border = '2px solid red';
       }
-      if (forms[i].querySelector('[name|=category_group]').value === '2010') {
-        let carButton = [];
-        carButton[i] = document.createElement('input');
-        carButton[i].type = 'button';
-        carButton[i].value = '+';
-        carButton[i].id = 'cars_' + forms[i].id;
-        carButton[i].onclick = function() {
-          let correctFormId = this.id.substring(5, 30);
-          let carsBrandText = document
-            .getElementById(correctFormId)
-            .getElementsByClassName('js-param js-cars_brand')[0]
-            .getElementsByTagName('select')[0];
-          let carsModelText = document
-            .getElementById(correctFormId)
-            .getElementsByClassName('js-param js-cars_level_1')[0]
-            .getElementsByTagName('select')[0];
-          let carBrand = '';
-          let carModel = '';
-          if (
-            carsBrandText.options[carsBrandText.selectedIndex].text !==
-              'название марки' &&
-            carsBrandText.options[carsBrandText.selectedIndex].text !== 'OTH1'
-          ) {
-            carBrand = ' ' + carsBrandText.options[carsBrandText.selectedIndex].text;
-          }
-          if (
-            carsModelText.options[carsModelText.selectedIndex].text !==
-              'название модели' &&
-            carsModelText.options[carsModelText.selectedIndex].text !== 'Другая'
-          ) {
-            carModel = ' ' + carsModelText.options[carsModelText.selectedIndex].text;
-          }
-          document
-            .getElementById(correctFormId)
-            .getElementsByClassName('subj')[0].nextSibling.value +=
-            carBrand + carModel;
-        };
-        forms[i].getElementsByClassName('subj')[0].appendChild(carButton[i]);
-      }
-
+      carTitleButton(forms[i]);
       // подсветка если цена бесплатно
       if (forms[i].querySelector('[id|=remuneration_type1]').checked) {
         try {
