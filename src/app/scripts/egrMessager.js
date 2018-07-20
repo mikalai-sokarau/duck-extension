@@ -1,3 +1,5 @@
+/* заменить ё на е */
+
 const egrMessager = form => {
   const vatNumber = form.querySelector('#vat_number');
   if (vatNumber) {
