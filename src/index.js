@@ -5,6 +5,7 @@ import clickCounter from './app/scripts/clickCounter';
 import phoneNumberCheck from './app/scripts/phoneNumberCheck';
 import previousRedaction from './app/scripts/previousRedaction';
 import egrMessager from './app/scripts/egrMessager';
+import robocopMessagesHighlighting from './app/scripts/robocopMessagesHighlighting';
 
 sessionStorage.setItem('adsReviewed', 0);
 
@@ -42,32 +43,7 @@ for (let i = 0; i < forms.length; i++) {
 
   phoneNumberCheck(forms[i]);
   previousRedaction(forms[i]);
-
-  /* подсветка сообщений от робота */
-  let uidClass = forms[i].getElementsByClassName('UidNoticeLink');
-  if (uidClass[uidClass.length - 1]) {
-    var roboNode = uidClass[uidClass.length - 1];
-    var roboText = roboNode.textContent;
-    if (
-      roboText.indexOf('autoaccept_category') != -1 ||
-      roboText.indexOf('user_in_whitelist') != -1 ||
-      roboText.indexOf('is_private_ad') != -1 ||
-      roboText.indexOf('edit-abuse_refuse_filter') != -1 ||
-      roboText.indexOf('fsm:new-is_new_user:yes') !== -1
-    ) {
-      roboNode.style.background = '#CCFFCC';
-    } else if (
-      roboText.indexOf('is_previous_state_refused:yes') != -1 ||
-      roboText.indexOf('TERMINATOR:manual') != -1
-    ) {
-      roboNode.style.background = '#FF9999';
-    } else if (roboText.indexOf('looks_like_company') != -1) {
-      roboNode.style.background = '#CCFFFF';
-    } else if (roboText.indexOf('is_belarus_ip:no') != -1) {
-      roboNode.style.background = '#CCFFCC';
-      roboNode.style.border = '3px solid black';
-    }
-  }
+  robocopMessagesHighlighting(forms[i]);
 
   //поиск по текущей категории
   let categoryFindButton;
