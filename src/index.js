@@ -2,6 +2,8 @@ import scriptText from './app/scripts/headScriptText';
 import timer from './app/scripts/timer';
 import clicker from './app/scripts/clicker';
 import clickCounter from './app/scripts/clickCounter';
+import phoneNumberCheck from './app/scripts/phoneNumberCheck';
+import previousRedaction from './app/scripts/previousRedaction';
 
 sessionStorage.setItem('adsReviewed', 0);
 
@@ -37,96 +39,8 @@ for (let i = 0; i < forms.length; i++) {
     }
   }
 
-  //помещает телефон над полем с ценой.
-  try {
-    const currentPhoneNumber = forms[i].querySelector('[class|=UserData]').children[2]
-      .textContent;
-    const fixedNumber = String(currentPhoneNumber.replace(/\D+/g, ''));
-    const phoneSpan = document.createElement('span');
-    phoneSpan.innerHTML = currentPhoneNumber;
-    fixedNumber.length < 9
-      ? (phoneSpan.style = 'color: red; font-weight: bold;')
-      : (phoneSpan.style = 'color: blue; font-weight: bold;');
-    if (!checkNumber(fixedNumber)) {
-      phoneSpan.style = 'color: red; font-weight: bold;';
-    }
-    if (fixedNumber.length > 17) {
-      phoneSpan.style = 'color: #339900; font-weight: bold;';
-    } // переделать
-    function checkNumber(numb) {
-      /* Первые цифры номера телефона */
-      const startNumbers = [
-        '37525',
-        '37529',
-        '37533',
-        '37544',
-        '8025',
-        '8029',
-        '8033',
-        '8044',
-        '25',
-        '29',
-        '33',
-        '44',
-        '025',
-        '029',
-        '033',
-        '044'
-      ];
-      return startNumbers.some(current => {
-        if (numb.startsWith(current)) {
-          const pureNumber = numb.slice(current.length);
-          if (pureNumber.length !== 7) return false;
-          const numbers = [...pureNumber].reduce(
-            (acc, item) => {
-              acc[Number(item)]++;
-              return acc;
-            },
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-          );
-          return Math.max(...numbers) < 6;
-        }
-
-        return false;
-      });
-    }
-
-    forms[i].querySelector('[class|=SmallLabel]').appendChild(phoneSpan);
-  } catch (e) {}
-
-  //предыдущая редакция объявления
-  try {
-    let adQueueId = forms[i]
-      .getElementsByClassName('fine_print')[0]
-      .getElementsByTagName('a');
-    let adNumberAndRedaction = adQueueId[adQueueId.length - 1].innerHTML.split('-');
-    if (!forms[i].querySelector('[class|=AdLink]')) {
-      adNumberAndRedaction[1] = 2;
-    }
-    let previousRedactionButton = document.createElement('a');
-    previousRedactionButton.id = 'duck_previousRedactionButton';
-    previousRedactionButton.target = '_blank';
-    previousRedactionButton.href =
-      'https://www2.kufar.by/controlpanel?m=adqueue&queue=all&lock=0&a=show_ad&ad_id=' +
-      adNumberAndRedaction[0] +
-      '&action_id=' +
-      (adNumberAndRedaction[1] - 1) +
-      '&single=1';
-    previousRedactionButton.appendChild(document.createTextNode('—►'));
-    if (adQueueId[adQueueId.length - 1].innerHTML.split('-')[1] - 1) {
-      previousRedactionButton.style = 'float:right;';
-    } else {
-      previousRedactionButton.style = 'float:right; display:none';
-    }
-    forms[i]
-      .getElementsByClassName('AdWrapper')[0]
-      .insertBefore(
-        previousRedactionButton,
-        forms[i].getElementsByClassName('AdWrapper')[0].children[0]
-      );
-  } catch (e) {
-    /* do nothing */
-  }
+  phoneNumberCheck(forms[i]);
+  previousRedaction(forms[i]);
 
   /* подсветка сообщений от робота */
   let uidClass = forms[i].getElementsByClassName('UidNoticeLink');
