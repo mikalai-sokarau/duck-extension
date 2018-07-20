@@ -11,6 +11,7 @@ import wheelsDataSynchronizing from './app/scripts/wheelsDataSynchronizing';
 import carTitleButton from './app/scripts/carTitleButton';
 import extraButtons from './app/scripts/extraButtons';
 import searchWords from './app/scripts/searchWords';
+import dangerNodesHighlighting from './app/scripts/dangerNodesHighlighting';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
@@ -29,6 +30,16 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   var forms = document.forms;
 
   for (let i = 0; i < forms.length; i++) {
+    phoneNumberCheck(forms[i]);
+    previousRedaction(forms[i]);
+    robocopMessagesHighlighting(forms[i]);
+    currentCategorySearch(forms[i]);
+    egrMessager(forms[i]);
+    extraButtons(forms[i]);
+    searchWords(forms[i]);
+    carTitleButton(forms[i]);
+    wheelsDataSynchronizing(forms[i]);
+
     /* оранжевая шапка на опубликованные объявления */
     if (forms[i].querySelector('.AdLink')) {
       forms[i].querySelector('.GreyOutlineHeader').classList.add('Orange');
@@ -47,18 +58,11 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
       }
     }
 
-    phoneNumberCheck(forms[i]);
-    previousRedaction(forms[i]);
-    robocopMessagesHighlighting(forms[i]);
-
-    //поиск по текущей категории
-    currentCategorySearch(forms[i]);
-
     if (forms[i].querySelector('[name|=category_group]')) {
       if (forms[i].querySelector('[name|=category_group]').value === '1120') {
         forms[i].style.border = '2px solid red';
       }
-      carTitleButton(forms[i]);
+
       // подсветка если цена бесплатно
       if (forms[i].querySelector('[id|=remuneration_type1]').checked) {
         try {
@@ -73,12 +77,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
           //do nothing
         }
       }
-
-      extraButtons(forms[i]);
-      searchWords(forms[i]);
-      wheelsDataSynchronizing(forms[i]);
     }
-    egrMessager(forms[i]);
   }
 
   /* Выделяет адрест ИМ, ТТ при некорректных данных */
@@ -111,61 +110,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
     }
   }
 
-  //Подсвечивает незаполненные поля размера, сезона, состояния
-  let shoesSeason = document.getElementsByName('shoes_season');
-  for (let i = 0; i < shoesSeason.length; i++) {
-    if (shoesSeason[i].value === '') {
-      shoesSeason[i].style.border = '1px solid red';
-    }
-  }
-
-  let womenClothesSize = document.getElementsByName('women_clothes_size');
-  for (let i = 0; i < womenClothesSize.length; i++) {
-    if (womenClothesSize[i].value === '') {
-      womenClothesSize[i].style.border = '1px solid red';
-    }
-  }
-
-  let menClothesSize = document.getElementsByName('men_clothes_size');
-  for (let i = 0; i < menClothesSize.length; i++) {
-    if (menClothesSize[i].value === '') {
-      menClothesSize[i].style.border = '1px solid red';
-    }
-  }
-
-  let conditionRequired = document.getElementsByName('condition_required');
-  for (let i = 0; i < conditionRequired.length; i++) {
-    if (conditionRequired[i].value === '') {
-      conditionRequired[i].style.border = '1px solid red';
-    }
-  }
-  let conditionFull = document.getElementsByName('condition');
-  for (let i = 0; i < conditionFull.length; i++) {
-    if (conditionFull[i].value === '') {
-      conditionFull[i].style.border = '1px solid red';
-    }
-  }
-
-  let menShoesSize = document.getElementsByName('men_shoes_size');
-  for (let i = 0; i < menShoesSize.length; i++) {
-    if (menShoesSize[i].value === '') {
-      menShoesSize[i].style.border = '1px solid red';
-    }
-  }
-
-  let womenShoesSize = document.getElementsByName('women_shoes_size');
-  for (let i = 0; i < womenShoesSize.length; i++) {
-    if (womenShoesSize[i].value === '') {
-      womenShoesSize[i].style.border = '1px solid red';
-    }
-  }
-
-  let babyClothesSeason = document.getElementsByName('baby_clothes_season');
-  for (let i = 0; i < babyClothesSeason.length; i++) {
-    if (babyClothesSeason[i].value === '') {
-      babyClothesSeason[i].style.border = '1px solid red';
-    }
-  }
+  dangerNodesHighlighting();
 
   //Сохраняет данные при наступлении нового часа.
   let tmpDate = new Date().getHours();
