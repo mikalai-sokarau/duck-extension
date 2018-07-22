@@ -86,7 +86,7 @@
 }
 
 a.rollover {
-    background: url(../../images/movedown.png); /* Путь к файлу с исходным  рисунком */
+    background: url(../../assets/images/movedown.png); /* Путь к файлу с исходным  рисунком */
     display: block; /* Рисунок как блочный элемент */
     width: 115px; /* Ширина рисунка в пикселах */
     height: 7px; /* Высота рисунка */
