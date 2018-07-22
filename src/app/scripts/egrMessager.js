@@ -19,8 +19,9 @@ const egrMessager = form => {
       chrome.runtime.sendMessage(
         { getDataFromEGR: vatNumber.value },
         ({ name, status, type }) => {
+          const fixedName = name.replace(/ё/gi, 'e');
           const isActive = checkForActive(status, userName, name, type);
-          const node = createNode(name, vatNumber.value, isActive);
+          const node = createNode(fixedName, vatNumber.value, isActive);
 
           if (isActive) {
             sessionStorage.setItem(key, `${name}=${isActive}`);
