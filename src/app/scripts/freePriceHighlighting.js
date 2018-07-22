@@ -6,7 +6,7 @@ const freePriceHighlighting = form => {
       range.setStart(aim, 0);
       range.setEnd(aim, aim.length - 1);
       const highlightDiv = document.createElement('span');
-      highlightDiv.style.color = 'red;';
+      highlightDiv.style.color = 'red';
       range.surroundContents(highlightDiv);
     } catch (e) {
       //do nothing
