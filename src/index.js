@@ -1,21 +1,23 @@
-import scriptText from './app/scripts/headScriptText';
-import timer from './app/scripts/timer';
-import clicker from './app/scripts/clicker';
-import clickCounter from './app/scripts/clickCounter';
-import phoneNumberCheck from './app/scripts/phoneNumberCheck';
-import previousRedaction from './app/scripts/previousRedaction';
-import egrMessager from './app/scripts/egrMessager';
-import robocopMessagesHighlighting from './app/scripts/robocopMessagesHighlighting';
-import currentCategorySearch from './app/scripts/currentCategorySearch';
-import wheelsDataSynchronizing from './app/scripts/wheelsDataSynchronizing';
-import carTitleButton from './app/scripts/carTitleButton';
-import extraButtons from './app/scripts/extraButtons';
-import searchWords from './app/scripts/searchWords';
-import dangerNodesHighlighting from './app/scripts/dangerNodesHighlighting';
-import wrongCompanyDataHighlighting from './app/scripts/wrongCompanyDataHighlighting';
-import correctIPSearch from './app/scripts/correctIPSearch';
-import moderatorStatsListener from './app/scripts/moderatorStatsListener';
-import freePriceHighlighting from './app/scripts/freePriceHighlighting';
+import { 
+  scriptText,
+  timer,
+  clicker,
+  clickCounter,
+  phoneNumberCheck,
+  previousRedaction,
+  egrMessager,
+  robocopMessagesHighlighting,
+  currentCategorySearch,
+  wheelsDataSynchronizing,
+  carTitleButton,
+  extraButtons,
+  searchWords,
+  dangerNodesHighlighting,
+  wrongCompanyDataHighlighting,
+  correctIPSearch,
+  moderatorStatsListener,
+  freePriceHighlighting
+} from './app/scripts';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
