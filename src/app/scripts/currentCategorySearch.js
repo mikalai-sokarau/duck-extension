@@ -1,13 +1,20 @@
-const currentCategorySearch = form => {
+import icon from '../../assets/images/svg/search.svg'
+
+export const currentCategorySearch = form => {
   const categoryFindButton = document.createElement('a');
 
   if (form.querySelector('[name|=category_group]')) {
     const form_selectValue = form.querySelector('[name|=category_group]').value;
+    const iconWrapper = document.createElement('div');
     const emailCheck = form
       .getElementsByClassName('AdWrapper')[0]
       .getElementsByTagName('a');
-
     let form_userMail;
+
+    iconWrapper.innerHTML = icon;
+    iconWrapper.style.width = '13px';
+    iconWrapper.style.color = 'black';
+    iconWrapper.style.display = 'inline-block';
 
     if (emailCheck[emailCheck.length - 1].textContent === '→') {
       form_userMail = emailCheck[emailCheck.length - 2];
@@ -17,7 +24,7 @@ const currentCategorySearch = form => {
 
     categoryFindButton.href = `https://www2.kufar.by/controlpanel?m=search&a=search&q=${form_userMail}&search_type=email&queue=&region=&category_group=${form_selectValue}&archive_group=noarchive&timespan=all&time_from=2016-09-19&time_to=2016-10-19&search=Search`;
     categoryFindButton.target = '_blank';
-    categoryFindButton.appendChild(document.createTextNode('🔍'));
+    categoryFindButton.appendChild(iconWrapper);
   }
   if (!form.querySelector('[name|=category_group]').getAttribute('onclick')) {
     form
@@ -45,5 +52,3 @@ const currentCategorySearch = form => {
     addedPlace[addedPlace.length - 1].appendChild(categoryFindButton);
   }
 };
-
-export default currentCategorySearch;

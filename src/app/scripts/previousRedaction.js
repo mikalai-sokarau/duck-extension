@@ -1,13 +1,21 @@
-const previousRedaction = form => {
+import icon from '../../assets/images/svg/arrow-right.svg'
+
+export const previousRedaction = form => {
   try {
     const adQueueId = form
       .getElementsByClassName('fine_print')[0]
       .getElementsByTagName('a');
     const adNumberAndRedaction = adQueueId[adQueueId.length - 1].innerHTML.split('-');
+
     if (!form.querySelector('[class|=AdLink]')) {
       adNumberAndRedaction[1] = 2;
     }
-    let previousRedactionButton = document.createElement('a');
+    const previousRedactionButton = document.createElement('a');
+    const iconWrapper = document.createElement('div');
+    iconWrapper.innerHTML = icon;
+    iconWrapper.style.width = '20px';
+    iconWrapper.style.color = 'black';
+
     previousRedactionButton.id = 'duck_previousRedactionButton';
     previousRedactionButton.target = '_blank';
     previousRedactionButton.href =
@@ -16,7 +24,7 @@ const previousRedaction = form => {
       '&action_id=' +
       (adNumberAndRedaction[1] - 1) +
       '&single=1';
-    previousRedactionButton.appendChild(document.createTextNode('—►'));
+    previousRedactionButton.appendChild(iconWrapper);
     if (adQueueId[adQueueId.length - 1].innerHTML.split('-')[1] - 1) {
       previousRedactionButton.style = 'float:right;';
     } else {
@@ -32,5 +40,3 @@ const previousRedaction = form => {
     /* do nothing */
   }
 };
-
-export default previousRedaction;

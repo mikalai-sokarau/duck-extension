@@ -1,11 +1,15 @@
-const carTitleButton = form => {
-  if (form.querySelector('[name|=category_group]').value === '2010') {
-    const carButton = document.createElement('input');
+import icon from '../../assets/images/svg/plus-square.svg';
 
-    carButton.type = 'button';
-    carButton.value = '+';
-    carButton.id = 'cars_' + form.id;
-    carButton.addEventListener('click', () => {
+export const carTitleButton = form => {
+  if (form.querySelector('[name|=category_group]').value === '2010') {
+    const iconWrapper = document.createElement('div');
+
+    iconWrapper.innerHTML = icon;
+    iconWrapper.style.width = '15px';
+    iconWrapper.style.display = 'inline-block';
+    iconWrapper.style.cursor = 'pointer';
+    iconWrapper.id = 'cars_' + form.id;
+    iconWrapper.addEventListener('click', () => {
       const carsBrandText = form.querySelector('#cars_brand');
       const carsModelText = form.querySelector('#cars_level_1');
       let carBrand = '';
@@ -25,8 +29,6 @@ const carTitleButton = form => {
       }
       form.querySelector('#subj_edit').value += carBrand + carModel;
     });
-    form.querySelector('#subj').appendChild(carButton);
+    form.querySelector('#subj').appendChild(iconWrapper);
   }
 };
-
-export default carTitleButton;
