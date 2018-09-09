@@ -6,5 +6,10 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'src/dist')
   },
-  mode: 'development'
+  mode: 'development',
+  module: {
+    rules: [
+      { test: /\.svg$/, loader: 'svg-inline-loader' }
+    ]
+  }
 };
