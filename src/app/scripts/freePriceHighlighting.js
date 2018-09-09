@@ -1,4 +1,4 @@
-const freePriceHighlighting = form => {
+export const freePriceHighlighting = form => {
   if (form.querySelector('[id|=remuneration_type1]').checked) {
     try {
       const range = document.createRange();
@@ -13,5 +13,3 @@ const freePriceHighlighting = form => {
     }
   }
 };
-
-export default freePriceHighlighting;

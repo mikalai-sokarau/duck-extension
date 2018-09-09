@@ -1,4 +1,4 @@
-const wrongCompanyDataHighlighting = () => {
+export const wrongCompanyDataHighlighting = () => {
   document.getElementsByName('web_shop_link').forEach(node => {
     const value = node.value.toLowerCase();
 
@@ -32,5 +32,3 @@ const wrongCompanyDataHighlighting = () => {
 function addHighlight(elem) {
   elem.style.background = '#CCFFCC';
 }
-
-export default wrongCompanyDataHighlighting;

@@ -1,4 +1,4 @@
-const scriptText = `function innerLogic(myForm, editReason) {
+export const scriptText = `function innerLogic(myForm, editReason) {
   var editReasonBy = editReason + '_by';
   var mbi = myForm.getElementsByClassName('multi_block_input');
   mbi[0].checked = 'true';
@@ -103,5 +103,3 @@ const falseSellerInformation = formId =>
   innerLogicRefuse(formId, 'false_seller_information');
 const inactiveDuplicate = formId => innerLogicRefuse(formId, 'inactive_duplicate');
 const duplicate = formId => innerLogicRefuse(formId, 'duplicate');`;
-
-export default scriptText;

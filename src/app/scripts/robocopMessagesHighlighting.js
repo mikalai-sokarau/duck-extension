@@ -1,4 +1,4 @@
-const robocopMessagesHighlighting = form => {
+export const robocopMessagesHighlighting = form => {
   const uidClass = form.getElementsByClassName('UidNoticeLink');
   if (uidClass[uidClass.length - 1]) {
     const roboNode = uidClass[uidClass.length - 1];
@@ -24,5 +24,3 @@ const robocopMessagesHighlighting = form => {
     }
   }
 };
-
-export default robocopMessagesHighlighting;

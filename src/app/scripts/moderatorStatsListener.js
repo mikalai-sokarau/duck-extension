@@ -1,4 +1,4 @@
-const moderatorStatsListener = () =>
+export const moderatorStatsListener = () =>
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request)
       if (request.msg === 'getAmount') {
@@ -29,5 +29,3 @@ const moderatorStatsListener = () =>
         sendResponse({ farewell: responseArray });
       }
   });
-
-export default moderatorStatsListener;

@@ -17,7 +17,7 @@ const startNumbers = [
   '044'
 ];
 
-const phoneNumberCheck = form => {
+export const phoneNumberCheck = form => {
   try {
     const currentPhoneNumber = form.querySelector('[class|=UserData]').children[2]
       .textContent;
@@ -57,5 +57,3 @@ function checkNumber(numb) {
     return false;
   });
 }
-
-export default phoneNumberCheck;

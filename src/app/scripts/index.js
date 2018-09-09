@@ -1,4 +1,3 @@
-export * from './background';
 export * from './carTitleButton';
 export * from './clickCounter';
 export * from './clicker';
@@ -6,10 +5,8 @@ export * from './correctIPSearch';
 export * from './currentCategorySearch';
 export * from './dangerNodesHighlighting';
 export * from './egrMessager';
-export * from './egrscript';
 export * from './extraButtons';
 export * from './freePriceHighlighting';
-export * from './headScriptText';
 export * from './moderatorStatsListener';
 export * from './phoneNumberCheck';
 export * from './previousRedaction';
@@ -19,4 +16,4 @@ export * from './timer';
 export * from './wheelsDataSynchronizing';
 export * from './wrongCompanyDataHighlighting';
 export * from './bumpsInfo';
-
+export * from './headScriptText';

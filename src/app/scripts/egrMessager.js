@@ -1,6 +1,4 @@
-/* заменить ё на е */
-
-const egrMessager = form => {
+export const egrMessager = form => {
   const vatNumber = form.querySelector('#vat_number');
   if (vatNumber) {
     const key = `duck_${vatNumber.value}`;
@@ -68,5 +66,3 @@ function createNode(name, value, isActive) {
 
   return node;
 }
-
-export default egrMessager;

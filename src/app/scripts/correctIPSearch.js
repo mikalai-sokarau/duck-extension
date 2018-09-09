@@ -1,4 +1,4 @@
-const correctIPSearch = () => {
+export const correctIPSearch = () => {
   const IPSearchNodesArr = Array.from(
     document.querySelectorAll(".UserData a[href*='ripe.net']")
   );
@@ -8,5 +8,3 @@ const correctIPSearch = () => {
     }&search_type=ip&queue=&region=&category_group=0&archive_group=noarchive&timespan=all&search=Search`;
   });
 };
-
-export default correctIPSearch;

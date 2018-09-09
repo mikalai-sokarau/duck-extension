@@ -1,4 +1,4 @@
-const wheelsDataSynchronizing = form => {
+export const wheelsDataSynchronizing = form => {
   if (form.querySelector('[name|=category_group]').value === '2075') {
     const constantDiameter =
       form.getElementsByClassName('js-param js-subparam js-tires_diameter')[0]
@@ -57,5 +57,3 @@ const wheelsDataSynchronizing = form => {
     )[0].lastElementChild.value = constantHeight;
   }
 };
-
-export default wheelsDataSynchronizing;

@@ -9,7 +9,7 @@ const dangerNodesNames = [
   'baby_clothes_season'
 ];
 
-const dangerNodesHighlighting = () =>
+export const dangerNodesHighlighting = () =>
   dangerNodesNames.forEach(name => {
     const nodeArr = document.getElementsByName(name);
     nodeArr.forEach(node => {
@@ -18,5 +18,3 @@ const dangerNodesHighlighting = () =>
       }
     });
   });
-
-export default dangerNodesHighlighting;

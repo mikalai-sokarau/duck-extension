@@ -1,6 +1,6 @@
-import clickCounter from './clickCounter';
+import { clickCounter } from './clickCounter';
 
-const extraButtons = form =>
+export const extraButtons = form =>
   chrome.storage.sync.get(['postmoderation'], ({ postmoderation }) => {
     if (postmoderation) {
       const buttons = [];
@@ -37,5 +37,3 @@ const extraButtons = form =>
       }
     }
   });
-
-export default extraButtons;

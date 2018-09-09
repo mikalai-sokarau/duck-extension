@@ -1,4 +1,4 @@
-const clicker = () =>
+export const clicker = () =>
   chrome.storage.sync.get(['clicker'], function(item) {
     if (item.clicker) {
       if (document.querySelector('body').innerHTML.length < 200) {
@@ -12,5 +12,3 @@ const clicker = () =>
       }
     }
   });
-
-export default clicker;

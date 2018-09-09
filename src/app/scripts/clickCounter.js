@@ -1,4 +1,4 @@
-const clickCounter = () => {
+export const clickCounter = () => {
   if (typeof Storage !== 'undefined') {
     if (localStorage.clickcount) {
       localStorage.clickcount = +localStorage.clickcount + 1;
@@ -16,5 +16,3 @@ const clickCounter = () => {
       : sessionStorage.setItem('adsReviewed', 1);
   }
 };
-
-export default clickCounter;

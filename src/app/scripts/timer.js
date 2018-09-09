@@ -1,4 +1,4 @@
-const timer = () => {
+export const timer = () => {
   try {
     chrome.storage.sync.get(['timer'], function(item) {
       const url = window.location.href;
@@ -36,5 +36,3 @@ const timer = () => {
     /* do nothing */
   }
 };
-
-export default timer;

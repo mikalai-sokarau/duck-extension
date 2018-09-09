@@ -1,4 +1,4 @@
-const searchWords = form =>
+export const searchWords = form =>
   chrome.storage.sync.get(['isSearchTextVisible'], function(obj) {
     if (obj.isSearchTextVisible) {
       chrome.storage.sync.get(['searchText'], function(item) {
@@ -88,5 +88,3 @@ function findNode(nodeWithText, num, startIndex = 0) {
   }
   return item[i].nodeType === 1 ? [item[i].firstChild, index] : [item[i], index];
 }
-
-export default searchWords;
