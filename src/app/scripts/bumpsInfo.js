@@ -15,7 +15,7 @@ const BUMPS_DURATION = {
     polepos_day: TIME.DAY,
     highlight: TIME.WEEK,
     ribbons: TIME.WEEK,
-    express: TIME.WEKK,
+    express: TIME.WEEK,
     seasonal: TIME.WEEK,
     turbo: TIME.WEEK,
 }
@@ -69,6 +69,8 @@ function findActiveBump (row) {
         reviewQueue = cells[5].textContent;
     }
     
+    action = action.startsWith('ribbons') ? 'ribbons' : action;
+
     return (
         status === APPROVED_STATUS && 
         reviewQueue === APPROVED_REVIEW_QUEUE &&
