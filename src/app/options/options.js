@@ -1,9 +1,14 @@
+/* 
+  If it is necessary to add more buttons to the options page
+  just find a node from 'document' and add it to the 'NODES' object below
+*/
 const NODES = {
     postmoderation: document.querySelector('#postmoderation'),
     timer: document.querySelector('#timer'),
     clicker: document.querySelector('#clicker'),
     bumpsInfo: document.querySelector('#bumpsInfo')
 }
+const SAVE_MESSAGE_NODE = document.querySelector('.save-msg');
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
@@ -12,9 +17,11 @@ chrome.storage.sync.get(Object.keys(NODES), items =>
 )
 
 // Save options to chrome.storage.sync
-document.getElementById('save').addEventListener('click', () => {
-  chrome.storage.sync.set(getOptions(NODES), notifyUser)
-});
+document.body.addEventListener('click', ({ target }) => {
+  if (target.type === 'checkbox') {
+    chrome.storage.sync.set(getOptions(NODES), notifyUser)
+  }
+})
 
 function getOptions(nodes) {
   return Object.keys(nodes).reduce((result, key) => {
@@ -25,10 +32,9 @@ function getOptions(nodes) {
 
 // Update status to let user know options were saved.
 function notifyUser() {
-  const status = document.getElementById('status');
+  SAVE_MESSAGE_NODE.classList.add('show');
 
-  status.style.visibility = 'visible';
   setTimeout(() => {
-    status.style.visibility = 'hidden'
-  }, 750);
+    SAVE_MESSAGE_NODE.classList.remove('show');
+  }, 650);
 }
