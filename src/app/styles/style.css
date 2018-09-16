@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     text-align: left;
+    font-style: italic; 
 }
 
 .highlighting {
@@ -18,9 +19,21 @@
     float: right;
 }
 
-.saveWrapper {
+.save-msg-wrapper {
+    height: 20px;
+}
+
+.save-msg {
+    padding-bottom: 3px;
+    color: green;
+    opacity: 0;
+}
+
+.save-msg.show {
+    animation: saving 0.65s linear;
     padding-top: 5px;
     text-align: center;
+    opacity: 1;
 }
 
 #allDayResult {
@@ -71,11 +84,6 @@
     width: 100%;
 }
 
-#status {
-    color: green;
-    padding-bottom: 3px;
-    visibility: hidden;
-}
 
 #wrapper {
     width: 93px;
@@ -86,7 +94,7 @@
 }
 
 a.rollover {
-    background: url(movedown.png); /* Путь к файлу с исходным  рисунком */
+    background: url(../../assets/images/movedown.png); /* Путь к файлу с исходным  рисунком */
     display: block; /* Рисунок как блочный элемент */
     width: 115px; /* Ширина рисунка в пикселах */
     height: 7px; /* Высота рисунка */
@@ -94,4 +102,13 @@ a.rollover {
 
 a.rollover:hover {
     background-position: 0 -7px; /* Смещение фона */
+}
+
+@keyframes saving {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
