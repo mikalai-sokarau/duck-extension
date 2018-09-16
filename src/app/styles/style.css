@@ -36,6 +36,38 @@
     opacity: 1;
 }
 
+.search-words {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.search-words > li {
+    margin: 5px 10px 5px 0;
+    padding: 3px 12px 6px 12px;
+    display: flex;
+    align-items: center;
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.search-words > li:hover .close-icon {
+    color: #F7786B;
+}
+
+.close-icon {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.close-icon > svg {
+    width: 10px;
+    height: 10px;
+}
+
 #allDayResult {
     font-size: 75%;
     font-weight: bold;
@@ -79,11 +111,6 @@
     padding-bottom: 2px;
     color: #abbf1f;
 }
-
-#searchText {
-    width: 100%;
-}
-
 
 #wrapper {
     width: 93px;
