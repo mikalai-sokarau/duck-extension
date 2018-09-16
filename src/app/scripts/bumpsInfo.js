@@ -24,26 +24,30 @@ const APPROVED_STATUS = 'accepted';
 const APPROVED_REVIEW_QUEUE = 'normal';
 
 export const bumpsInfo = form => {
-    const parser = new DOMParser();
-    const ad = form.querySelector('.fine_print a[target="_blank"]');
-    
-    if (ad) {
-        fetch(`https://www2.kufar.by/controlpanel?m=search&a=ad_history&ad_id=${
-            ad.textContent.split('-')[0]
-        }&popup=`)
-            .then(res => res.text())
-            .then(text => parser.parseFromString(text, 'text/html'))
-            .then(page => {
-                const isBump = Array.from(page.querySelectorAll('tr'))
-                                    .reverse()
-                                    .some(findActiveBump);
-                
-                if (isBump) {
-                    addBumpIcon(form);
+    chrome.storage.sync.get(['bumpsInfo'], ({ bumpsInfo }) => {
+        if (bumpsInfo) {
+            const parser = new DOMParser();
+            const ad = form.querySelector('.fine_print a[target="_blank"]');
+            
+            if (ad) {
+                fetch(`https://www2.kufar.by/controlpanel?m=search&a=ad_history&ad_id=${
+                    ad.textContent.split('-')[0]
+                }&popup=`)
+                    .then(res => res.text())
+                    .then(text => parser.parseFromString(text, 'text/html'))
+                    .then(page => {
+                        const isBump = Array.from(page.querySelectorAll('tr'))
+                                            .reverse()
+                                            .some(findActiveBump);
+                        
+                        if (isBump) {
+                            addBumpIcon(form);
+                        }
+                    })
+                    .catch(err => console.log(err));
                 }
-            })
-            .catch(err => console.log(err));
-        }
+            }
+    });
 };
 
 function addBumpIcon(form) {
