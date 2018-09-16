@@ -6,7 +6,8 @@ const NODES = {
     postmoderation: document.querySelector('#postmoderation'),
     timer: document.querySelector('#timer'),
     clicker: document.querySelector('#clicker'),
-    bumpsInfo: document.querySelector('#bumpsInfo')
+    bumpsInfo: document.querySelector('#bumpsInfo'),
+    descriptionSearch: document.querySelector('#descriptionSearch'),
 }
 const SAVE_MESSAGE_NODE = document.querySelector('.save-msg');
 
