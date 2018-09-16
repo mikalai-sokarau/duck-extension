@@ -17,7 +17,8 @@ import {
   correctIPSearch,
   moderatorStatsListener,
   freePriceHighlighting,
-  bumpsInfo
+  bumpsInfo,
+  descriptionSearch
 } from './app/scripts';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
@@ -39,6 +40,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   correctIPSearch();
 
   Array.from(document.forms).forEach(form => {
+    descriptionSearch(form);
     bumpsInfo(form);
     phoneNumberCheck(form);
     previousRedaction(form);
