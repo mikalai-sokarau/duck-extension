@@ -18,7 +18,8 @@ import {
   moderatorStatsListener,
   freePriceHighlighting,
   bumpsInfo,
-  descriptionSearch
+  descriptionSearch,
+  init,
 } from './app/scripts';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
@@ -27,6 +28,7 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   //Добавляет текст скрипта с функциями addWrongCategory(), addTitleEdited() в head
   const head = document.getElementsByTagName('head')[0];
   const script = document.createElement('script');
+  const wordsStore = [];
   script.type = 'text/javascript';
   script.text = scriptText;
 
@@ -38,9 +40,10 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   dangerNodesHighlighting();
   moderatorStatsListener();
   correctIPSearch();
+  init(wordsStore);
 
   Array.from(document.forms).forEach(form => {
-    descriptionSearch(form);
+    descriptionSearch(form, wordsStore);
     bumpsInfo(form);
     phoneNumberCheck(form);
     previousRedaction(form);

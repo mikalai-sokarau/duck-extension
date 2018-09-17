@@ -18,3 +18,4 @@ export * from './wrongCompanyDataHighlighting';
 export * from './bumpsInfo';
 export * from './headScriptText';
 export * from './descriptionSearch';
+export * from './init';

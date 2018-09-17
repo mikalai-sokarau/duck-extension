@@ -46,6 +46,7 @@ searchWordsList.addEventListener('click', e => {
   if (clickedLi) {
     store = store.filter(el => el !== liText);
     clickedLi.remove();
+    notifyUser();
   }
 })
 
@@ -54,6 +55,8 @@ searchWordsList.addEventListener('click', e => {
 chrome.storage.sync.get(Object.keys(NODES), items => 
     Object.keys(NODES).forEach(key => NODES[key].checked = items[key])
 )
+
+
 
 // Save options to chrome.storage.sync
 document.body.addEventListener('click', ({ target }) => {
@@ -85,6 +88,7 @@ function accessToStore(text, store) {
     return false;  
   } else {
     store.push(text);
+    chrome.storage.sync.set({ store: store.join('*duck*') }, notifyUser);
   }
 
   return true;
