@@ -14,23 +14,39 @@ const NODES = {
 const SAVE_MESSAGE_NODE = document.querySelector('.save-msg');
 const searchInput = document.querySelector('#searchInput');
 const searchBtn = document.querySelector('#searchBtn');
-const searchList = document.querySelector('.search-words');
+const searchWordsList = document.querySelector('.search-words-list');
+let store = [];
 
 searchBtn.addEventListener('click', () => {
-  const li = document.createElement('li');
-  const liIcon = document.createElement('div');
-  const liText = document.createElement('div');
-  
-  liText.textContent = searchInput.value.toLowerCase();
-  li.appendChild(liText);
+  const inputText = searchInput.value.toLowerCase().trim();
 
-  liIcon.classList.add('close-icon');
-  liIcon.innerHTML = icon;
-  li.appendChild(liIcon);
-  
-  searchList.appendChild(li);
-  searchInput.value = '';
-  searchInput.focus();
+  if (accessToStore(inputText, store)) {
+    const li = document.createElement('li');
+    const liIcon = document.createElement('div');
+    const liText = document.createElement('div');
+    
+    liText.classList.add('item-text')
+    liText.textContent = inputText;
+    li.appendChild(liText);
+
+    liIcon.classList.add('close-icon');
+    liIcon.innerHTML = icon;
+    li.appendChild(liIcon);
+    
+    searchWordsList.appendChild(li);
+    searchInput.value = '';
+    searchInput.focus();
+  }
+});
+
+searchWordsList.addEventListener('click', e => {
+  const clickedLi = e.target.closest('li');
+  const liText = clickedLi.querySelector('.item-text').textContent;
+
+  if (clickedLi) {
+    store = store.filter(el => el !== liText);
+    clickedLi.remove();
+  }
 })
 
 // Restores select box and checkbox state using the preferences
@@ -60,4 +76,16 @@ function notifyUser() {
   setTimeout(() => {
     SAVE_MESSAGE_NODE.classList.remove('show');
   }, 650);
+}
+
+function accessToStore(text, store) {
+  const isStoreHasText = store.find(el => el === text);
+
+  if (store.length >= 10 || isStoreHasText || text.length === 0) {
+    return false;  
+  } else {
+    store.push(text);
+  }
+
+  return true;
 }
