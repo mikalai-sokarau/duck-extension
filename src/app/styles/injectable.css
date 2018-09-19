@@ -1,0 +1,16 @@
+.duck-previous-redaction-btn {
+  float: right;
+  width: 20px;
+}
+
+.svg-inline--fa {
+  color: #898E8C;
+}
+
+.svg-inline--fa:hover {
+  color: #F7786B;
+}
+
+.hidden {
+  display: none;
+}
