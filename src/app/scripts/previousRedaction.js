@@ -1,42 +1,24 @@
-import icon from '../../assets/images/svg/arrow-right.svg'
+import icon from '../../assets/images/svg/arrow-right.svg';
 
 export const previousRedaction = form => {
-  try {
-    const adQueueId = form
-      .getElementsByClassName('fine_print')[0]
-      .getElementsByTagName('a');
-    const adNumberAndRedaction = adQueueId[adQueueId.length - 1].innerHTML.split('-');
+    try {
+        const id = form.querySelector('.fine_print > a:not(.AdLink)').textContent.split('-');
 
-    if (!form.querySelector('[class|=AdLink]')) {
-      adNumberAndRedaction[1] = 2;
-    }
-    const previousRedactionButton = document.createElement('a');
-    const iconWrapper = document.createElement('div');
-    iconWrapper.innerHTML = icon;
-    iconWrapper.style.width = '20px';
-    iconWrapper.style.color = 'black';
+        if (id[1] > 1) {
+            const btn = document.createElement('a'),
+                  iconWrapper = document.createElement('div'),
+                  adWrapper = form.querySelector('.AdWrapper');
 
-    previousRedactionButton.id = 'duck_previousRedactionButton';
-    previousRedactionButton.target = '_blank';
-    previousRedactionButton.href =
-      'https://www2.kufar.by/controlpanel?m=adqueue&queue=all&lock=0&a=show_ad&ad_id=' +
-      adNumberAndRedaction[0] +
-      '&action_id=' +
-      (adNumberAndRedaction[1] - 1) +
-      '&single=1';
-    previousRedactionButton.appendChild(iconWrapper);
-    if (adQueueId[adQueueId.length - 1].innerHTML.split('-')[1] - 1) {
-      previousRedactionButton.style = 'float:right;';
-    } else {
-      previousRedactionButton.style = 'float:right; display:none';
+            iconWrapper.innerHTML = icon;
+            btn.target = '_blank';
+            btn.href = `https://www2.kufar.by/controlpanel?m=adqueue&queue=all&lock=0&a=show_ad&ad_id=${
+                id[0]
+            }&action_id=${id[1] - 1}&single=1`;
+            btn.classList.add('duck-previous-redaction-btn');
+            btn.appendChild(iconWrapper);
+            adWrapper.insertBefore(btn, adWrapper.children[0]);
+        }
+    } catch (e) {
+        console.log(e);
     }
-    form
-      .getElementsByClassName('AdWrapper')[0]
-      .insertBefore(
-        previousRedactionButton,
-        form.getElementsByClassName('AdWrapper')[0].children[0]
-      );
-  } catch (e) {
-    /* do nothing */
-  }
 };
