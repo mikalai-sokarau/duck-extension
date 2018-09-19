@@ -30,6 +30,9 @@
       "js": [
         "./dist/bundle.js",
         "./app/scripts/egrscript.js"
+      ],
+      "css": [
+        "./app/styles/injectable.css"
       ]
     }
   ],
