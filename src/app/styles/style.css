@@ -94,14 +94,14 @@
 }
 
 a.rollover {
-    background: url(../../assets/images/movedown.png); /* Путь к файлу с исходным  рисунком */
-    display: block; /* Рисунок как блочный элемент */
-    width: 115px; /* Ширина рисунка в пикселах */
-    height: 7px; /* Высота рисунка */
+    background: url(../../assets/images/movedown.png); 
+    display: block;
+    width: 115px;
+    height: 7px;
 }
 
 a.rollover:hover {
-    background-position: 0 -7px; /* Смещение фона */
+    background-position: 0 -7px;
 }
 
 @keyframes saving {
