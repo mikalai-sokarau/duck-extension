@@ -7,7 +7,7 @@
     <script src="./options.js" defer></script>
 </head>
 
-<body>
+<body class="options-body">
     <div>
         <label for="timer">Таймер</label>
         <input id="timer" class="right" type="checkbox">
@@ -32,10 +32,12 @@
         <label for="descriptionSearch">Поиск по тексту</label>
         <input id="descriptionSearch" class="right" type="checkbox">
         <br>
-        <div class="search-words-container hidden">
+        <div class="search-words-container">
             <ul class="search-words-list"></ul>
-            <input id="searchInput" type="text">
-            <input id="searchBtn" type="button" value="+">
+            <div class="search-control-container">
+                <input class="search-input" type="text">
+                <input class="search-btn" type="button" value="+">
+            </div>
         </div>
     </div>
     <div class="save-msg-wrapper">

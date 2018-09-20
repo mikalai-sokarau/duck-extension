@@ -12,8 +12,9 @@ const NODES = {
     descriptionSearch: document.querySelector('#descriptionSearch'),
 },
       SAVE_MESSAGE_NODE = document.querySelector('.save-msg'),
-      searchInput = document.querySelector('#searchInput'),
-      searchBtn = document.querySelector('#searchBtn'),
+      searchInput = document.querySelector('.search-input'),
+      searchBtn = document.querySelector('.search-btn'),
+      searchWordsContainer = document.querySelector('.search-words-container'),
       searchWordsList = document.querySelector('.search-words-list');
 let store = [];
 
@@ -21,19 +22,7 @@ searchBtn.addEventListener('click', () => {
   const inputText = searchInput.value.toLowerCase().trim();
 
   if (accessToStore(inputText, store)) {
-    const li = document.createElement('li');
-    const liIcon = document.createElement('div');
-    const liText = document.createElement('div');
-    
-    liText.classList.add('item-text')
-    liText.textContent = inputText;
-    li.appendChild(liText);
-
-    liIcon.classList.add('close-icon');
-    liIcon.innerHTML = icon;
-    li.appendChild(liIcon);
-    
-    searchWordsList.appendChild(li);
+    createSearchWord(inputText);
     searchInput.value = '';
     searchInput.focus();
   }
@@ -47,17 +36,31 @@ searchWordsList.addEventListener('click', e => {
 
     store = store.filter(el => el !== liText);
     clickedLi.remove();
-    notifyUser();
+    chrome.storage.sync.set({ store: store.join('*duck*')}, notifyUser);
   }
 })
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
-chrome.storage.sync.get(Object.keys(NODES), items => 
-    Object.keys(NODES).forEach(key => NODES[key].checked = items[key])
+chrome.storage.sync.get([...Object.keys(NODES), 'store'], items => {
+        const savedStore = items['store'];
+
+        if (savedStore) {
+            const words = savedStore.split('*duck*');
+            
+            store = words;
+            words.forEach(createSearchWord);
+        }
+
+        Object.keys(NODES).forEach(key => {
+            key === 'descriptionSearch' && items[key] ?
+                searchWordsContainer.classList.remove('invisible') :
+                searchWordsContainer.classList.add('invisible');
+            
+            NODES[key].checked = items[key]
+        })
+    }
 )
-
-
 
 // Save options to chrome.storage.sync
 document.body.addEventListener('click', ({ target }) => {
@@ -68,36 +71,52 @@ document.body.addEventListener('click', ({ target }) => {
 })
 
 function getOptions(nodes) {
-  return Object.keys(nodes).reduce((result, key) => {
-      result[key] = nodes[key].checked;
-      return result;
-  }, {})
+    return Object.keys(nodes).reduce((result, key) => {
+        result[key] = nodes[key].checked;
+        return result;
+    }, {})
 }
 
 // Update status to let user know options were saved.
 function notifyUser() {
-  SAVE_MESSAGE_NODE.classList.add('show');
+    SAVE_MESSAGE_NODE.classList.add('show');
 
-  setTimeout(() => {
-    SAVE_MESSAGE_NODE.classList.remove('show');
-  }, 650);
+    setTimeout(() => {
+        SAVE_MESSAGE_NODE.classList.remove('show');
+    }, 650);
 }
 
 function accessToStore(text, store) {
-  const isStoreHasText = store.find(el => el === text);
+    const isStoreHasText = store.find(el => el === text);
 
-  if (store.length >= 10 || isStoreHasText || text.length === 0) {
-    return false;  
-  } else {
-    store.push(text);
-    chrome.storage.sync.set({ store: store.join('*duck*') }, notifyUser);
-  }
+    if (store.length >= 10 || isStoreHasText || text.length === 0) {
+        return false;  
+    } else {
+        store.push(text);
+        chrome.storage.sync.set({ store: store.join('*duck*')}, notifyUser);
+    }
 
-  return true;
+    return true;
 }
 
 function showHideSearchSection(node) {
     if (node.id === 'descriptionSearch') {
-        document.querySelector('.search-words-container').classList.toggle('invisible');
+        searchWordsContainer.classList.toggle('invisible');
     }
+}
+
+function createSearchWord(text) {
+    const li = document.createElement('li');
+    const liIcon = document.createElement('div');
+    const liText = document.createElement('div');
+    
+    liText.classList.add('item-text')
+    liText.textContent = text;
+    li.appendChild(liText);
+
+    liIcon.classList.add('close-icon');
+    liIcon.innerHTML = icon;
+    li.appendChild(liIcon);
+
+    searchWordsList.appendChild(li);
 }
