@@ -10,11 +10,11 @@ const NODES = {
     clicker: document.querySelector('#clicker'),
     bumpsInfo: document.querySelector('#bumpsInfo'),
     descriptionSearch: document.querySelector('#descriptionSearch'),
-}
-const SAVE_MESSAGE_NODE = document.querySelector('.save-msg');
-const searchInput = document.querySelector('#searchInput');
-const searchBtn = document.querySelector('#searchBtn');
-const searchWordsList = document.querySelector('.search-words-list');
+},
+      SAVE_MESSAGE_NODE = document.querySelector('.save-msg'),
+      searchInput = document.querySelector('#searchInput'),
+      searchBtn = document.querySelector('#searchBtn'),
+      searchWordsList = document.querySelector('.search-words-list');
 let store = [];
 
 searchBtn.addEventListener('click', () => {
@@ -41,9 +41,10 @@ searchBtn.addEventListener('click', () => {
 
 searchWordsList.addEventListener('click', e => {
   const clickedLi = e.target.closest('li');
-  const liText = clickedLi.querySelector('.item-text').textContent;
 
   if (clickedLi) {
+    const liText = clickedLi.querySelector('.item-text').textContent;
+
     store = store.filter(el => el !== liText);
     clickedLi.remove();
     notifyUser();
@@ -60,9 +61,10 @@ chrome.storage.sync.get(Object.keys(NODES), items =>
 
 // Save options to chrome.storage.sync
 document.body.addEventListener('click', ({ target }) => {
-  if (target.type === 'checkbox') {
-    chrome.storage.sync.set(getOptions(NODES), notifyUser)
-  }
+    if (target.type === 'checkbox') {
+        showHideSearchSection(target);   
+        chrome.storage.sync.set(getOptions(NODES), notifyUser)
+    }
 })
 
 function getOptions(nodes) {
@@ -92,4 +94,10 @@ function accessToStore(text, store) {
   }
 
   return true;
+}
+
+function showHideSearchSection(node) {
+    if (node.id === 'descriptionSearch') {
+        document.querySelector('.search-words-container').classList.toggle('invisible');
+    }
 }

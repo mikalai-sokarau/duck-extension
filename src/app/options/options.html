@@ -28,13 +28,15 @@
         <input id="bumpsInfo" class="right" type="checkbox">
         <br>
     </div>
-    <div>
+    <div class="description-search">
         <label for="descriptionSearch">Поиск по тексту</label>
         <input id="descriptionSearch" class="right" type="checkbox">
         <br>
-        <ul class="search-words-list"></ul>
-        <input id="searchInput" type="text">
-        <input id="searchBtn" type="button" value="+">
+        <div class="search-words-container hidden">
+            <ul class="search-words-list"></ul>
+            <input id="searchInput" type="text">
+            <input id="searchBtn" type="button" value="+">
+        </div>
     </div>
     <div class="save-msg-wrapper">
         <div class="save-msg">Сохранено</div>

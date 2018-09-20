@@ -139,3 +139,7 @@ a.rollover:hover {
         opacity: 0;
     }
 }
+
+.invisible {
+    display: none;
+}
