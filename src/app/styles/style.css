@@ -51,11 +51,12 @@
     padding: 3px 12px 6px 12px;
     display: flex;
     align-items: center;
-    background-color: #C0C0C0;
+    background-color: #7FCDCD;
     border: none;
     color: white;
     font-size: 10px;
     cursor: pointer;
+    border-radius: 7px;
 }
 
 .search-words-list > li:hover .close-icon {
@@ -125,14 +126,14 @@
 }
 
 a.rollover {
-    background: url(../../assets/images/movedown.png); /* ÐŸÑƒÑ‚ÑŒ Ðº Ñ„Ð°Ð¹Ð»Ñƒ Ñ Ð¸ÑÑ…Ð¾Ð´Ð½Ñ‹Ð¼  Ñ€Ð¸ÑÑƒÐ½ÐºÐ¾Ð¼ */
-    display: block; /* Ð Ð¸ÑÑƒÐ½Ð¾Ðº ÐºÐ°Ðº Ð±Ð»Ð¾Ñ‡Ð½Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ */
-    width: 115px; /* Ð¨Ð¸Ñ€Ð¸Ð½Ð° Ñ€Ð¸ÑÑƒÐ½ÐºÐ° Ð² Ð¿Ð¸ÐºÑÐµÐ»Ð°Ñ… */
-    height: 7px; /* Ð’Ñ‹ÑÐ¾Ñ‚Ð° Ñ€Ð¸ÑÑƒÐ½ÐºÐ° */
+    background: url(../../assets/images/movedown.png); 
+    display: block; 
+    width: 115px; 
+    height: 7px; 
 }
 
 a.rollover:hover {
-    background-position: 0 -7px; /* Ð¡Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ñ„Ð¾Ð½Ð° */
+    background-position: 0 -7px;
 }
 
 @keyframes saving {
@@ -155,16 +156,34 @@ a.rollover:hover {
 }
 
 .search-control-container > .search-btn {
-    margin-left: -1px;
+    background: white;
+    color: #7FCDCD;
+    box-shadow: none;
+    border: 1px solid #7FCDCD;
+    cursor: pointer;
+    margin-left: -2px;
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
     min-width: 30px;
     min-height: 25px;
 }
 
+.search-control-container > .search-btn:hover {
+    background: #7FCDCD;
+    border: 1px solid #7FCDCD;
+    box-shadow: none;
+    color: white;
+}
+
 .search-control-container > .search-input {
+    border-color: #7FCDCD;
     border-top-left-radius: 7px;
     border-bottom-left-radius: 7px;
+}
+
+.search-control-container > .search-input:focus,
+.search-control-container > .search-btn:focus {
+    outline: none;
 }
 
 .options-body {
