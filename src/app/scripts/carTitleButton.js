@@ -1,4 +1,4 @@
-import icon from '../../assets/images/svg/plus-square.svg';
+import icon from '../../assets/images/svg/plus-solid.svg';
 
 export const carTitleButton = form => {
   if (form.querySelector('[name|=category_group]').value === '2010') {

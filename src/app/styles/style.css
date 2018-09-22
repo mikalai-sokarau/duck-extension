@@ -127,9 +127,9 @@
 
 a.rollover {
     background: url(../../assets/images/movedown.png); 
-    display: block; 
-    width: 115px; 
-    height: 7px; 
+    display: block;
+    width: 115px;
+    height: 7px;
 }
 
 a.rollover:hover {
