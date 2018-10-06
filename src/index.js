@@ -11,7 +11,6 @@ import {
   wheelsDataSynchronizing,
   carTitleButton,
   extraButtons,
-  searchWords,
   dangerNodesHighlighting,
   wrongCompanyDataHighlighting,
   correctIPSearch,
@@ -28,6 +27,15 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   const forms = Array.from(document.forms);
   const head = document.getElementsByTagName('head')[0];
   const script = document.createElement('script');
+  const categoriesForHighlighting = [
+    '2010', // cars
+    '2020', // trailers
+    '2030', // motorcycles
+    '2050', // water transport
+    '2060', // trucks
+    '2080', // agricultural transport
+    '2090', // special transport
+  ];
   script.type = 'text/javascript';
   script.text = scriptText;
 
@@ -50,8 +58,6 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
     robocopMessagesHighlighting(form);
     currentCategorySearch(form);
     egrMessager(form);
-    
-    searchWords(form); // delete
     carTitleButton(form);
     wheelsDataSynchronizing(form);
     freePriceHighlighting(form);
@@ -73,8 +79,22 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
       }
     }
 
-    if (form.querySelector('[name|=category_group]')) {
-      if (form.querySelector('[name|=category_group]').value === '1120') {
+    // category highlighting
+    const categoryGroup = form.querySelector('[name|=category_group]');
+    if (categoryGroup) {
+      if (categoriesForHighlighting.find(_ => categoryGroup.value === _)) {
+        const vehicleCondition = form.querySelector('li.js-cars_condition_required:not(.hidden)');
+
+        if (vehicleCondition) {
+          const value = vehicleCondition.querySelector('#cars_condition_required').value;
+
+          if (value === '2') {
+            form.style.border = '2px solid red';
+          }
+        }
+      }
+
+      if (categoryGroup.value === '1120') { // new buildings
         form.style.border = '2px solid red';
       }
     }
