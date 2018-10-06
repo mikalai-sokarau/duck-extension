@@ -20,7 +20,11 @@
 }
 
 .save-msg-wrapper {
+    bottom: 10px;
     height: 20px;
+    position: absolute;
+    right: 165px;
+    width: 100px;
 }
 
 .save-msg {
@@ -34,6 +38,39 @@
     padding-top: 5px;
     text-align: center;
     opacity: 1;
+}
+
+.search-words-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.search-words-list > li {
+    margin: 5px 10px 5px 0;
+    padding: 3px 12px 6px 12px;
+    display: flex;
+    align-items: center;
+    background-color: #7FCDCD;
+    border: none;
+    color: white;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.search-words-list > li:hover .close-icon {
+    color: #F7786B;
+}
+
+.close-icon {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.close-icon > svg {
+    width: 10px;
+    height: 10px;
 }
 
 #allDayResult {
@@ -80,11 +117,6 @@
     color: #abbf1f;
 }
 
-#searchText {
-    width: 100%;
-}
-
-
 #wrapper {
     width: 93px;
     height: auto;
@@ -94,14 +126,14 @@
 }
 
 a.rollover {
-    background: url(../../assets/images/movedown.png); /* Путь к файлу с исходным  рисунком */
-    display: block; /* Рисунок как блочный элемент */
-    width: 115px; /* Ширина рисунка в пикселах */
-    height: 7px; /* Высота рисунка */
+    background: url(../../assets/images/movedown.png); 
+    display: block;
+    width: 115px;
+    height: 7px;
 }
 
 a.rollover:hover {
-    background-position: 0 -7px; /* Смещение фона */
+    background-position: 0 -7px;
 }
 
 @keyframes saving {
@@ -111,4 +143,50 @@ a.rollover:hover {
     to {
         opacity: 0;
     }
+}
+
+
+.invisible {
+    display: none;
+}
+
+.search-control-container {
+    display: flex;
+    justify-content: center;
+}
+
+.search-control-container > .search-btn {
+    background: white;
+    color: #7FCDCD;
+    box-shadow: none;
+    border: 1px solid #7FCDCD;
+    cursor: pointer;
+    margin-left: -2px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    min-width: 30px;
+    min-height: 25px;
+}
+
+.search-control-container > .search-btn:hover {
+    background: #7FCDCD;
+    border: 1px solid #7FCDCD;
+    box-shadow: none;
+    color: white;
+}
+
+.search-control-container > .search-input {
+    border-color: #7FCDCD;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+.search-control-container > .search-input:focus,
+.search-control-container > .search-btn:focus {
+    outline: none;
+}
+
+.options-body {
+    min-height: 200px;
+    width: 400px;
 }

@@ -7,7 +7,7 @@
     <script src="./options.js" defer></script>
 </head>
 
-<body>
+<body class="options-body">
     <div>
         <label for="timer">Таймер</label>
         <input id="timer" class="right" type="checkbox">
@@ -27,6 +27,18 @@
         <label for="bumpsInfo">Информация о бампах</label>
         <input id="bumpsInfo" class="right" type="checkbox">
         <br>
+    </div>
+    <div class="description-search">
+        <label for="descriptionSearch">Поиск по тексту</label>
+        <input id="descriptionSearch" class="right" type="checkbox">
+        <br>
+        <div class="search-words-container">
+            <ul class="search-words-list"></ul>
+            <div class="search-control-container">
+                <input class="search-input" type="text">
+                <input class="search-btn" type="button" value="+">
+            </div>
+        </div>
     </div>
     <div class="save-msg-wrapper">
         <div class="save-msg">Сохранено</div>

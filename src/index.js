@@ -17,13 +17,15 @@ import {
   correctIPSearch,
   moderatorStatsListener,
   freePriceHighlighting,
-  bumpsInfo
+  bumpsInfo,
+  descriptionSearch,
 } from './app/scripts';
 
 if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   sessionStorage.setItem('adsReviewed', 0);
 
   //Добавляет текст скрипта с функциями addWrongCategory(), addTitleEdited() в head
+  const forms = Array.from(document.forms);
   const head = document.getElementsByTagName('head')[0];
   const script = document.createElement('script');
   script.type = 'text/javascript';
@@ -37,16 +39,19 @@ if (/https:\/\/www2.kufar.by/.test(window.location.href)) {
   dangerNodesHighlighting();
   moderatorStatsListener();
   correctIPSearch();
+  
+  descriptionSearch(forms);
+  bumpsInfo(forms);
+  extraButtons(forms);
 
-  Array.from(document.forms).forEach(form => {
-    bumpsInfo(form);
+  forms.forEach(form => {
     phoneNumberCheck(form);
     previousRedaction(form);
     robocopMessagesHighlighting(form);
     currentCategorySearch(form);
     egrMessager(form);
-    extraButtons(form);
-    searchWords(form);
+    
+    searchWords(form); // delete
     carTitleButton(form);
     wheelsDataSynchronizing(form);
     freePriceHighlighting(form);
