@@ -96,10 +96,8 @@ function innerLogicRefuse(myForm, refuseReason) {
     }
   }
 }
-const refuseCompanyAdAsPrivate = formId =>
-  innerLogicRefuse(formId, 'company_ad_as_private');
-const refuse2Cabinets = formId => innerLogicRefuse(formId, '2_cabinets');
-const falseSellerInformation = formId =>
-  innerLogicRefuse(formId, 'false_seller_information');
-const inactiveDuplicate = formId => innerLogicRefuse(formId, 'inactive_duplicate');
-const duplicate = formId => innerLogicRefuse(formId, 'duplicate');`;
+const refuseCompanyAdAsPrivate = formId => innerLogicRefuse(formId, 'company_ad_as_private'),
+    falseSellerInformation = formId => innerLogicRefuse(formId, 'false_seller_information'),
+    inactiveDuplicate = formId => innerLogicRefuse(formId, 'inactive_duplicate'),
+    duplicate = formId => innerLogicRefuse(formId, 'duplicate'),
+    unrealisticNoMail = formId => innerLogicRefuse(formId, 'unrealistic_nomail');`;
