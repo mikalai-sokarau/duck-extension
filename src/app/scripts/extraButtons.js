@@ -17,13 +17,13 @@ export const extraButtons = forms =>
           buttons[n].style = 'float: right; margin-right: 10px;';
         }
         buttons[0].value = 'компания';
-        buttons[1].value = '2 каб.';
+        buttons[1].value = 'unrealistic';
         buttons[2].value = 'тел.';
         buttons[3].value = 'deactivated';
         buttons[4].value = 'published';
 
         buttons[0].setAttribute('onclick', `refuseCompanyAdAsPrivate(${form.id})`);
-        buttons[1].setAttribute('onclick', `refuse2Cabinets(${form.id})`);
+        buttons[1].setAttribute('onclick', `unrealisticNoMail(${form.id})`);
         buttons[2].setAttribute('onclick', `falseSellerInformation(${form.id})`);
         buttons[3].setAttribute('onclick', `inactiveDuplicate(${form.id})`);
         buttons[4].setAttribute('onclick', `duplicate(${form.id})`);

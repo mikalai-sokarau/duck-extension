@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Уткулятор",
-  "version": "1.0.27",
+  "version": "1.0.29",
   "description": "ᕕ( ՞ ᗜ ՞ )ᕗ",
   "icons": {
     "16": "./assets/images/icon16.png",
